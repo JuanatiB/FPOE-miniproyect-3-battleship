@@ -2,6 +2,7 @@ package com.example.miniproyect3fpoe.controller;
 
 import com.example.miniproyect3fpoe.model.Game;
 import com.example.miniproyect3fpoe.view.GameStage;
+import com.example.miniproyect3fpoe.view.InstructionStage;
 import com.example.miniproyect3fpoe.view.WelcomeStage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,7 +22,9 @@ public class WelcomeController  {
     private final Game game = new Game();
 
     @FXML
-    void HandleInstructions(ActionEvent event) {
+    void HandleInstructions(ActionEvent event) throws IOException {
+        InstructionStage.getInstance();
+        WelcomeStage.deleteInstance();
 
     }
 
