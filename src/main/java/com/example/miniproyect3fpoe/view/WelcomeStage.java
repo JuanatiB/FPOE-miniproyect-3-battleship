@@ -3,6 +3,7 @@ package com.example.miniproyect3fpoe.view;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -27,7 +28,10 @@ public class WelcomeStage extends Stage {
         Parent root = loader.load();
         Scene scene = new Scene(root);
         setScene(scene);
-        setTitle("Miniproyecto 2 sudoku");
+        setTitle("Miniproyecto 3 Batalla naval");
+        getIcons().add(new Image(String.valueOf(
+                getClass().getResource("/com/example/miniproyect3fpoe/favicon.png"))
+        ));
         setResizable(false);
         show();
     }
@@ -44,16 +48,14 @@ public class WelcomeStage extends Stage {
      * Provides access to the singleton instance of {@link WelcomeStage}.
      * If the instance does not already exist, it is created.
      *
-     * @return The singleton instance of WelcomeStage.
      * @throws IOException If there is an issue creating or loading the stage.
      */
-    public static WelcomeStage getInstance() throws IOException {
+    public static void getInstance() throws IOException {
         WelcomeStageHolder.INSTANCE =
                 WelcomeStageHolder.INSTANCE != null ?
                         WelcomeStageHolder.INSTANCE :
                         new WelcomeStage();
 
-        return WelcomeStageHolder.INSTANCE;
     }
 
     /**
