@@ -32,20 +32,28 @@ public class Ship {
      * @param startCol Starting column.
      * @return true if the coordinates are successfully set.
      */
+
     public boolean setCoordinates(int startRow, int startCol) {
         if (isPlaced) {
-            return false; // Cannot set coordinates if the ship is already placed
+            return false;
         }
 
-        coordinates.clear(); // Clear any previous coordinates
+        coordinates.clear();
         for (int i = 0; i < size; i++) {
             int row = isHorizontal ? startRow : startRow + i;
             int col = isHorizontal ? startCol + i : startCol;
             coordinates.add(new int[]{row, col});
         }
-        isPlaced = true; // Mark the ship as placed
+
+        System.out.println("Coordinates for ship " + name + ":");
+        for (int[] coord : coordinates) {
+            System.out.println("(" + coord[0] + ", " + coord[1] + ")");
+        }
+
+        isPlaced = true;
         return true;
     }
+
 
     /**
      * Toggles the orientation of the ship between horizontal and vertical.
@@ -69,12 +77,13 @@ public class Ship {
     public boolean occupiesCell(int row, int col) {
         for (int[] coord : coordinates) {
             if (coord[0] == row && coord[1] == col) {
+                System.out.println("Ship " + name + " occupies (" + row + ", " + col + ")");
                 return true;
             }
         }
+        System.out.println("Ship " + name + " does NOT occupy (" + row + ", " + col + ")");
         return false;
     }
-
 
     /**
      * Registers a hit on the ship at the specified cell.
