@@ -90,32 +90,35 @@ public class Board {
      * @return The result of the shot ("miss", "hit", or "sunk").
      */
     public String registerShot(int row, int col) {
+        // Verificar límites del tablero
         if (row < 0 || row >= BOARD_SIZE || col < 0 || col >= BOARD_SIZE) {
-            return "invalid"; // Invalid shot
+            return "invalid";
         }
 
+        // Verificar si la celda ya ha sido disparada
         if (grid[row][col] == MISS || grid[row][col] == HIT) {
-            return "already shot"; // Cell already shot
+            return "already shot";
         }
 
-        if (grid[row][col] == SHIP) {
-            grid[row][col] = HIT; // Mark the cell as hit
+        // Iterar sobre los barcos para verificar impacto
+        for (Ship ship : ships) {
+            if (ship.occupiesCell(row, col)) {
+                grid[row][col] = HIT; // Marcar celda como impactada
+                ship.registerHit(row, col); // Registrar impacto en el barco
 
-            // Check which ship was hit
-            for (Ship ship : ships) {
-                if (ship.registerHit(row, col)) {
-                    if (ship.isSunk()) {
-                        return "sunk"; // The ship is completely sunk
-                    }
-                    return "hit"; // The ship was hit but not sunk
+                // Verificar si el barco ha sido hundido
+                if (ship.isSunk()) {
+                    return "sunk";
                 }
+                return "hit";
             }
         }
 
-        // If no ship is hit, it's a miss
+        // Si no se impacta ningún barco, es un "miss"
         grid[row][col] = MISS;
         return "miss";
     }
+
 
     /**
      * Checks if all ships on the board have been sunk.
