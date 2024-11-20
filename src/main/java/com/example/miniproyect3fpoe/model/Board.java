@@ -65,7 +65,7 @@ public class Board {
      * @param startCol Starting column for the ship.
      * @return true if the placement is valid, false otherwise.
      */
-    private boolean isPlacementValid(Ship ship, int startRow, int startCol) {
+    public boolean isPlacementValid(Ship ship, int startRow, int startCol) {
         for (int i = 0; i < ship.getSize(); i++) {
             int row = ship.isHorizontal() ? startRow : startRow + i;
             int col = ship.isHorizontal() ? startCol + i : startCol;

@@ -16,7 +16,15 @@ public class HumanAdapter extends PlayerAdapter {
      * @return A message indicating the result of the attack ("miss", "hit", or "sunk").
      */
     @Override
-    public String playTurn(int row, int col) {
-        return board.registerShot(row, col);
+    public String playTurn(int row, int col, Board opponentBoard) {
+        return opponentBoard.registerShot(row, col);
+    }
+
+    /**
+     * Gets the list of ships of the human player.
+     * @return The list of ships.
+     */
+    public List<Ship> getShips() {
+        return ships;
     }
 }

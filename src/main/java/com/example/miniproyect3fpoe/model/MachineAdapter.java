@@ -44,8 +44,20 @@ public class MachineAdapter extends PlayerAdapter {
      * @return A message indicating the result of the attack ("miss", "hit", or "sunk").
      */
     @Override
-    public String playTurn(int row, int col) {
-        return board.registerShot(row, col);
+    public String playTurn(int row, int col, Board opponentBoard) {
+        String result;
+
+        // Intentar registrar un disparo en las coordenadas dadas
+        result = opponentBoard.registerShot(row, col);
+
+        // Si ya se había disparado en esa celda, retorna un mensaje indicativo
+        if (result.equals("already shot")) {
+            return "Invalid move, cell already shot.";
+        }
+
+        // Retorna el resultado del disparo
+        return result;
     }
+
 
 }

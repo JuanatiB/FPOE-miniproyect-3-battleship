@@ -8,7 +8,7 @@ public interface IPlayer {
      * Executes the player's turn by targeting the opponent's board.
      * @return A message indicating the result of the shot ("miss", "hit", or "sunk").
      */
-    String playTurn(int row, int col);
+    String playTurn(int row, int col, Board opponentBoard);
 
     /**
      * Checks if the player has lost the game.

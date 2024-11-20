@@ -33,7 +33,7 @@ public class PlayerAdapter implements IPlayer {
     }
 
     @Override
-    public String playTurn(int row, int col) {
+    public String playTurn(int row, int col, Board opponentBoard) {
         // Default implementation (to be overridden by subclasses)
         return "Invalid action";
     }
