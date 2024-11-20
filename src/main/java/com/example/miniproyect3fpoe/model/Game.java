@@ -1,8 +1,8 @@
 package com.example.miniproyect3fpoe.model;
 
 public class Game implements IGame {
-    private final HumanAdapter human;
-    private final MachineAdapter machine;
+    public final HumanAdapter human;
+    public final MachineAdapter machine;
     private String winner;
 
     public Game(HumanAdapter human, MachineAdapter machine) {

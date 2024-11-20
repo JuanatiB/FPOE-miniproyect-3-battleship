@@ -147,4 +147,10 @@ public class Board {
         return ships;
     }
 
+    public void reset() {
+        initializeGrid(); // Vuelve a llenar la matriz con celdas vacías
+        ships.clear();    // Elimina todos los barcos
+    }
+
+
 }

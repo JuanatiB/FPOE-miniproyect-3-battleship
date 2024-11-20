@@ -4,7 +4,7 @@ import com.example.miniproyect3fpoe.model.Board;
 import com.example.miniproyect3fpoe.model.Game;
 import com.example.miniproyect3fpoe.model.HumanAdapter;
 import com.example.miniproyect3fpoe.model.MachineAdapter;
-import com.example.miniproyect3fpoe.view.GameStage;
+import com.example.miniproyect3fpoe.view.PlacementStage;
 import com.example.miniproyect3fpoe.view.InstructionStage;
 import com.example.miniproyect3fpoe.view.WelcomeStage;
 import javafx.event.ActionEvent;
@@ -41,7 +41,7 @@ public class WelcomeController  {
 
     @FXML
     void HandlePlay(ActionEvent event) throws IOException {
-        GameStage.getInstance().getGameController().setGame(game);
+        PlacementStage.getInstance().getGameController().setGame(game);
         WelcomeStage.deleteInstance();
 
     }
