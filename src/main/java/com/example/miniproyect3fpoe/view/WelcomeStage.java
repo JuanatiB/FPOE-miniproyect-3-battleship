@@ -30,7 +30,7 @@ public class WelcomeStage extends Stage {
         setScene(scene);
         setTitle("Miniproyecto 3 Batalla naval");
         getIcons().add(new Image(String.valueOf(
-                getClass().getResource("/com/example/miniproyect3fpoe/favicon.png"))
+                getClass().getResource("/com/example/miniproyect3fpoe/images/favicon.png"))
         ));
         setResizable(false);
         show();
