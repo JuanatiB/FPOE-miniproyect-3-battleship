@@ -6,7 +6,7 @@ import java.util.List;
 public class Ship {
     private final String name; // Name of the ship (e.g., "Carrier", "Destroyer")
     private final int size; // Size of the ship (number of cells it occupies)
-    private final boolean isHorizontal; // Orientation: true = horizontal, false = vertical
+    private boolean isHorizontal; // Orientation: true = horizontal, false = vertical
     private final List<int[]> coordinates; // List of occupied coordinates (row, column)
     private int hits; // Number of hits received
 
@@ -64,6 +64,14 @@ public class Ship {
         return false;
     }
 
+
+    /**
+     * Sets the orientation of the ship.
+     * @param horizontal true if the ship is horizontal, false if it is vertical.
+     */
+    public void setHorizontal(boolean horizontal) {
+        this.isHorizontal = horizontal;
+    }
     /**
      * Checks if the ship is sunk (all cells are hit).
      * @return true if the ship is sunk, false otherwise.
@@ -95,6 +103,8 @@ public class Ship {
     public boolean isHorizontal() {
         return isHorizontal;
     }
+
+
 
     /**
      * Gets the coordinates occupied by the ship.

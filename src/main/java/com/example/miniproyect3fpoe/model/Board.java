@@ -142,8 +142,9 @@ public class Board {
         }
     }
 
-    // Getter for the board size
-    public int getBoardSize() {
-        return BOARD_SIZE;
+    // Getter for the list of ships
+    public List<Ship> getShips() {
+        return ships;
     }
+
 }
