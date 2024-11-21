@@ -2,7 +2,9 @@ package com.example.miniproyect3fpoe.controller;
 
 import com.example.miniproyect3fpoe.model.Game;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -14,6 +16,11 @@ public class GameController {
     public GridPane machineBoardGrid;     // Tablero de ataque a la máquina
 
     private Game game;
+
+    @FXML
+    private Label resultLabel;
+
+
 
     /**
      * Configura el juego al recibir una instancia de Game.
@@ -174,8 +181,9 @@ public class GameController {
      *
      * @param winner Nombre del ganador.
      */
+
     private void endGame(String winner) {
-        System.out.println("Game Over! Winner: " + winner);
+        resultLabel.setText(winner.equals("Human") ? "Felicidades, ganaste!" : "Lo siento, la máquina ganó esta");
         ownBoardGrid.setDisable(true);
         machineBoardGrid.setDisable(true);
     }
