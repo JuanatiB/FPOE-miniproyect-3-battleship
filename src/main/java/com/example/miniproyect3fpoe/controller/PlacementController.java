@@ -1,13 +1,21 @@
 package com.example.miniproyect3fpoe.controller;
 
 import com.example.miniproyect3fpoe.model.*;
+import com.example.miniproyect3fpoe.view.GameStage;
+import com.example.miniproyect3fpoe.view.PlacementStage;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import java.io.IOException;
+import java.util.Objects;
+
 public class PlacementController {
 
+    public Button startButton;
     private Game game;
     private Board humanBoard;
     private Board machineBoard;
@@ -56,9 +64,11 @@ public class PlacementController {
     /**
      * Inicializa el GridPane para mostrar el tablero del jugador.
      */
+    @FXML
     private void initializeOwnBoardUI() {
         ownBoardGrid.getChildren().clear();
 
+        // Configuración del GridPane y sus celdas
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
                 Rectangle cell = new Rectangle(30, 30);
@@ -75,7 +85,30 @@ public class PlacementController {
                 ownBoardGrid.add(cell, col, row);
             }
         }
+
+        // Evento para cambiar la orientación con la tecla Espacio
+        ownBoardGrid.setOnKeyPressed(event -> {
+            if (Objects.requireNonNull(event.getCode()) == KeyCode.SPACE) {
+                toggleOrientation(); // Cambiar orientación
+            }
+        });
+
+        // Permitir que el GridPane reciba eventos de teclado
+        ownBoardGrid.setFocusTraversable(true);
     }
+
+    @FXML
+    private void handleStartButton() throws IOException {
+        // Crear y configurar el GameStage
+        GameStage.getInstance().getGameController().setGame(game);
+
+        // Cerrar el PlacementStage
+        PlacementStage.deleteInstance();
+    }
+
+
+
+
 
     /**
      * Resalta las celdas donde podría colocarse el barco actual.
@@ -98,11 +131,17 @@ public class PlacementController {
             for (var node : ownBoardGrid.getChildren()) {
                 if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == col) {
                     Rectangle rect = (Rectangle) node;
-                    rect.setFill(isValid ? Color.GREEN : Color.RED);
+                    // Solo resaltar si la celda no está ocupada
+                    if (humanBoard.occupiesCell(row, col)) {
+                        rect.setFill(Color.GRAY); // Ocupada, ya tiene un barco
+                    } else {
+                        rect.setFill(isValid ? Color.GREEN : Color.RED); // Resaltado válido/incorrecto
+                    }
                 }
             }
         }
     }
+
 
     /**
      * Limpia el resaltado en el tablero.
@@ -110,9 +149,18 @@ public class PlacementController {
     private void clearHighlight() {
         for (var node : ownBoardGrid.getChildren()) {
             Rectangle rect = (Rectangle) node;
-            rect.setFill(Color.LIGHTBLUE);
+            int row = GridPane.getRowIndex(node);
+            int col = GridPane.getColumnIndex(node);
+
+            // Solo limpiar si la celda no está ocupada
+            if (humanBoard.occupiesCell(row, col)) {
+                rect.setFill(Color.GRAY); // Ocupada, ya tiene un barco
+            } else {
+                rect.setFill(Color.LIGHTBLUE); // Vacía
+            }
         }
     }
+
 
     /**
      * Maneja el clic del jugador para intentar colocar un barco.
@@ -160,18 +208,49 @@ public class PlacementController {
         }
     }
 
+
     /**
-     * Avanza al siguiente barco que debe ser colocado por el jugador.
+     * Checks if all ships have been placed and enables the "Start" button if true.
+     */
+    private void checkAllShipsPlaced() {
+        if (human.getShips().stream().allMatch(ship -> humanBoard.getShips().contains(ship))) {
+            startButton.setDisable(false);
+            startButton.setStyle("-fx-background-color: #4caf50; -fx-text-fill: white; -fx-font-weight: bold;");
+            ownBoardGrid.setDisable(true); // Desactiva el tablero
+            System.out.println("All ships placed! Board is now disabled.");
+        }
+    }
+
+
+
+    /**
+     * Proceeds to the next ship to be placed, or validates that all ships are placed.
      */
     private void proceedToNextShip() {
-        // Usar directamente los barcos del jugador humano desde el atributo 'human'
+        // Get the current index of the ship being placed
         int currentIndex = human.getShips().indexOf(currentShip);
+
+        // If there are more ships to place, move to the next one
         if (currentIndex < human.getShips().size() - 1) {
             currentShip = human.getShips().get(currentIndex + 1);
             System.out.println("Select position for: " + currentShip.getName());
         } else {
+            // If no more ships remain, check if all are placed
             System.out.println("All ships placed!");
         }
+
+        // Validate ship placement status
+        checkAllShipsPlaced();
     }
+
+
+    private void toggleOrientation() {
+        if (currentShip == null) return;
+
+        // Cambiar la orientación del barco actual
+        currentShip.setHorizontal(!currentShip.isHorizontal());
+        System.out.println("Orientation toggled: " + (currentShip.isHorizontal() ? "Horizontal" : "Vertical"));
+    }
+
 
 }

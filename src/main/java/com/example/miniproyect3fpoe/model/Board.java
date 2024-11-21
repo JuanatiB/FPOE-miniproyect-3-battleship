@@ -151,5 +151,17 @@ public class Board {
         ships.clear();    // Elimina todos los barcos
     }
 
+    /**
+     * Verifica si una celda específica está ocupada por un barco.
+     *
+     * @param row La fila a verificar.
+     * @param col La columna a verificar.
+     * @return true si la celda está ocupada, false en caso contrario.
+     */
+    public boolean occupiesCell(int row, int col) {
+        return grid[row][col] == SHIP; // Compara con el carácter que representa un barco
+    }
+
+
 
 }
