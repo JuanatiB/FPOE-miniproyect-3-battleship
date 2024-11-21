@@ -59,5 +59,4 @@ public class MachineAdapter extends PlayerAdapter {
         return result;
     }
 
-
 }
