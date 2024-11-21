@@ -164,9 +164,15 @@ public class GameController {
     /**
      * Maneja el botón para ver el tablero completo de la máquina.
      */
-    public void handleViewMachineBoard(ActionEvent actionEvent) throws IOException {
-        System.out.println("Viewing machine board...");
-        OpponentBoardStage.getInstance().getOpponentBoardController().initialize(game.machine.getBoard());
+    @FXML
+    public void handleViewMachineBoard(ActionEvent actionEvent) {
+        try {
+            OpponentBoardStage opponentBoardStage = OpponentBoardStage.getInstance();
+            opponentBoardStage.getOpponentBoardController().initialize(game.machine.getBoard());
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("No se pudo abrir el tablero de la máquina.");
+        }
     }
 }
 

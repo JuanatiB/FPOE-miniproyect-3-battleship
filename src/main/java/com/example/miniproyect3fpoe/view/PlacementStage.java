@@ -28,6 +28,7 @@ public class PlacementStage extends Stage {
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/com/example/miniproyect3fpoe/placement-view.fxml")
         );
+
         Parent root = loader.load();
         placementController = loader.getController();
         Scene scene = new Scene(root);

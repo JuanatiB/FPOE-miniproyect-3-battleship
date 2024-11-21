@@ -16,8 +16,26 @@ public class OpponentBoardController {
     private Board machineBoard;
 
     public void initialize(Board machineBoard) {
-        this.machineBoard = machineBoard;
-        displayBoard(machineBoard);
+        machineBoardGrid.getChildren().clear();
+
+        for (int row = 0; row < 10; row++) {
+            for (int col = 0; col < 10; col++) {
+                Rectangle cell = new Rectangle(30, 30);
+                cell.setStroke(Color.BLACK);
+
+                if (machineBoard.occupiesCell(row, col)) {
+                    cell.setFill(Color.DARKGRAY); // Muestra barcos
+                } else if (machineBoard.isHit(row, col)) {
+                    cell.setFill(Color.RED); // Disparo exitoso
+                } else if (machineBoard.isMiss(row, col)) {
+                    cell.setFill(Color.YELLOW); // Disparo fallido
+                } else {
+                    cell.setFill(Color.LIGHTBLUE); // Agua
+                }
+
+                machineBoardGrid.add(cell, col, row);
+            }
+        }
     }
 
     private void displayBoard(Board board) {

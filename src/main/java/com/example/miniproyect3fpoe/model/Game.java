@@ -11,6 +11,7 @@ public class Game implements IGame {
         this.winner = null;
     }
 
+
     @Override
     public String processHumanShot(int row, int col) {
         String result = machine.playTurn(row, col, machine.getBoard());
