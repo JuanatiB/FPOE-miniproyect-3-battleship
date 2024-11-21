@@ -5,19 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Ship implements Serializable {
-    private static final long serialVersionUID = 1L; // Identificador único para la serialización
-
-    private final String name; // Nombre del barco (e.g., "Carrier", "Destroyer")
-    private final int size; // Tamaño del barco (cantidad de celdas que ocupa)
-    private boolean isHorizontal; // Orientación: true = horizontal, false = vertical
-    private final List<int[]> coordinates; // Lista de coordenadas ocupadas (fila, columna)
-    private int hits; // Número de golpes recibidos
+    private static final long serialVersionUID = 1L; // ID para la serialización
+    private final String name; // Name of the ship (e.g., "Carrier", "Destroyer")
+    private final int size; // Size of the ship (number of cells it occupies)
+    private boolean isHorizontal; // Orientation: true = horizontal, false = vertical
+    private final List<int[]> coordinates; // List of occupied coordinates (row, column)
+    private int hits; // Number of hits received
 
     /**
-     * Constructor para la clase Ship.
-     * @param name Nombre del barco.
-     * @param size Tamaño del barco (número de celdas que ocupa).
-     * @param isHorizontal Orientación del barco (true = horizontal, false = vertical).
+     * Constructor for the Ship class.
+     * @param name Name of the ship.
+     * @param size Size of the ship (number of cells it occupies).
+     * @param isHorizontal Orientation of the ship (true = horizontal, false = vertical).
      */
     public Ship(String name, int size, boolean isHorizontal) {
         this.name = name;
@@ -28,13 +27,13 @@ public class Ship implements Serializable {
     }
 
     /**
-     * Establece las coordenadas del barco basado en su posición inicial y orientación.
-     * @param startRow Fila inicial.
-     * @param startCol Columna inicial.
-     * @return true si las coordenadas se establecen con éxito.
+     * Sets the coordinates of the ship based on its starting position and orientation.
+     * @param startRow Starting row.
+     * @param startCol Starting column.
+     * @return true if the coordinates are successfully set.
      */
     public boolean setCoordinates(int startRow, int startCol) {
-        coordinates.clear(); // Limpia cualquier coordenada previamente establecida
+        coordinates.clear(); // Clear any previously set coordinates
         for (int i = 0; i < size; i++) {
             int row = isHorizontal ? startRow : startRow + i;
             int col = isHorizontal ? startCol + i : startCol;
@@ -44,29 +43,20 @@ public class Ship implements Serializable {
     }
 
     /**
-     * Establece directamente una lista de coordenadas para el barco.
-     * @param newCoordinates Lista de coordenadas a establecer.
-     */
-    public void setCoordinates(List<int[]> newCoordinates) {
-        coordinates.clear();
-        coordinates.addAll(newCoordinates);
-    }
-
-    /**
-     * Verifica si el barco ocupa una celda específica.
-     * @param row Fila a verificar.
-     * @param col Columna a verificar.
-     * @return true si el barco ocupa la celda, false en caso contrario.
+     * Checks if the ship occupies a specific cell.
+     * @param row Row to check.
+     * @param col Column to check.
+     * @return true if the ship occupies the cell, false otherwise.
      */
     public boolean occupiesCell(int row, int col) {
         return coordinates.stream().anyMatch(coord -> coord[0] == row && coord[1] == col);
     }
 
     /**
-     * Registra un golpe en el barco en una celda específica.
-     * @param row Fila del golpe.
-     * @param col Columna del golpe.
-     * @return true si el golpe es exitoso, false en caso contrario.
+     * Registers a hit on the ship at the specified cell.
+     * @param row Row of the hit.
+     * @param col Column of the hit.
+     * @return true if the hit is successful, false otherwise.
      */
     public boolean registerHit(int row, int col) {
         if (occupiesCell(row, col)) {
@@ -77,58 +67,66 @@ public class Ship implements Serializable {
     }
 
     /**
-     * Establece la orientación del barco.
-     * @param horizontal true si el barco es horizontal, false si es vertical.
+     * Sets the orientation of the ship.
+     * @param horizontal true if the ship is horizontal, false if it is vertical.
      */
     public void setHorizontal(boolean horizontal) {
         this.isHorizontal = horizontal;
     }
 
     /**
-     * Verifica si el barco está hundido (todas las celdas han sido golpeadas).
-     * @return true si el barco está hundido, false en caso contrario.
+     * Checks if the ship is sunk (all cells are hit).
+     * @return true if the ship is sunk, false otherwise.
      */
     public boolean isSunk() {
         return hits >= size;
     }
 
     /**
-     * Devuelve el nombre del barco.
-     * @return El nombre del barco.
+     * Gets the name of the ship.
+     * @return The name of the ship.
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Devuelve el tamaño del barco.
-     * @return El tamaño del barco.
+     * Gets the size of the ship.
+     * @return The size of the ship.
      */
     public int getSize() {
         return size;
     }
 
     /**
-     * Devuelve la orientación del barco.
-     * @return true si el barco es horizontal, false si es vertical.
+     * Gets the orientation of the ship.
+     * @return true if the ship is horizontal, false if it is vertical.
      */
     public boolean isHorizontal() {
         return isHorizontal;
     }
 
     /**
-     * Devuelve las coordenadas ocupadas por el barco.
-     * @return Lista de coordenadas (fila, columna) ocupadas por el barco.
+     * Gets the coordinates occupied by the ship.
+     * @return List of coordinates (row, column) occupied by the ship.
      */
     public List<int[]> getCoordinates() {
         return coordinates;
     }
 
     /**
-     * Devuelve la cantidad de golpes recibidos por el barco.
-     * @return Número de golpes recibidos.
+     * Gets the number of hits received by the ship.
+     * @return The number of hits.
      */
     public int getHits() {
         return hits;
+    }
+
+    /**
+     * Resets the ship's state.
+     */
+    public void reset() {
+        coordinates.clear();
+        hits = 0;
     }
 }
