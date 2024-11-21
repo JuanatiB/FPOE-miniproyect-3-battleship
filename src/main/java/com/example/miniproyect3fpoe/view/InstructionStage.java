@@ -28,7 +28,7 @@ public InstructionStage() throws IOException {
 //        ));
         setResizable(false);
         setWidth(400);
-        setHeight(700);
+        setHeight(643);
         show();
     }
 
