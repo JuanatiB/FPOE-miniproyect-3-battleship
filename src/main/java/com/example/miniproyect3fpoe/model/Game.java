@@ -5,23 +5,12 @@ public class Game implements IGame {
     public final MachineAdapter machine;
     private String winner;
 
-    /**
-     * Constructor que inicializa el juego con un jugador humano y una máquina.
-     * @param human El jugador humano.
-     * @param machine El jugador máquina.
-     */
     public Game(HumanAdapter human, MachineAdapter machine) {
         this.human = human;
         this.machine = machine;
         this.winner = null;
     }
 
-    /**
-     * Procesa el disparo realizado por el humano al tablero de la máquina.
-     * @param row La fila del disparo.
-     * @param col La columna del disparo.
-     * @return El resultado del disparo ("miss", "hit", "sunk").
-     */
     @Override
     public String processHumanShot(int row, int col) {
         String result = machine.playTurn(row, col, machine.getBoard());
@@ -35,12 +24,6 @@ public class Game implements IGame {
         return result;
     }
 
-    /**
-     * Procesa el disparo realizado por la máquina al tablero del humano.
-     * @param row La fila del disparo.
-     * @param col La columna del disparo.
-     * @return El resultado del disparo ("miss", "hit", "sunk").
-     */
     @Override
     public String processMachineShot(int row, int col) {
         String result = human.playTurn(row, col, human.getBoard());
@@ -55,10 +38,6 @@ public class Game implements IGame {
     }
 
 
-    /**
-     * Verifica si alguno de los jugadores ha perdido todas sus naves.
-     * @return true si hay un ganador, false en caso contrario.
-     */
     @Override
     public boolean checkVictory() {
         System.out.println("Checking victory condition...");
@@ -70,10 +49,6 @@ public class Game implements IGame {
     }
 
 
-    /**
-     * Obtiene el ganador del juego. Lanza una excepción si aún no hay ganador.
-     * @return El ganador ("Human" o "Machine").
-     */
     @Override
     public String getWinner() {
         if (winner == null) {
@@ -82,28 +57,5 @@ public class Game implements IGame {
         return winner;
     }
 
-    /**
-     * Obtiene el tablero del jugador máquina.
-     * @return El tablero de la máquina.
-     */
-    public Board getMachineBoard() {
-        return machine.getBoard();
-    }
 
-    /**
-     * Obtiene el tablero del jugador humano.
-     * @return El tablero del humano.
-     */
-    public Board getHumanBoard() {
-        return human.getBoard();
-    }
-
-    /**
-     * Reinicia el juego para que ambos jugadores puedan jugar nuevamente.
-     */
-    public void resetGame() {
-        human.getBoard().reset();
-        machine.getBoard().reset();
-        this.winner = null;
-    }
 }

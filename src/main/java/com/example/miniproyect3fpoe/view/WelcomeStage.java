@@ -67,4 +67,3 @@ public class WelcomeStage extends Stage {
         WelcomeStageHolder.INSTANCE = null;
     }
 }
-

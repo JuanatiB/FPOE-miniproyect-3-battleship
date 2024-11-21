@@ -8,7 +8,7 @@ public class GameSaveManager {
     private static final String SAVE_FILE = "game_state.ser";
     private static final String PLAYER_FILE = "player_data.txt";
 
-    // Save the game state to a file
+    // Guardar el estado del juego
     public static void saveGame(Board humanBoard, Board machineBoard, String nickname, int humanShipsSunk) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_FILE))) {
             oos.writeObject(humanBoard);
@@ -58,4 +58,3 @@ public class GameSaveManager {
         return new File(SAVE_FILE).exists() && new File(PLAYER_FILE).exists();
     }
 }
-

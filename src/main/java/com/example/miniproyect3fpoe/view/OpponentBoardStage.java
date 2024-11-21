@@ -1,6 +1,6 @@
 package com.example.miniproyect3fpoe.view;
 
-import com.example.miniproyect3fpoe.controller.GameController;
+import com.example.miniproyect3fpoe.controller.OpponentBoardController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -8,31 +8,26 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-/**
- * The {@code GameStage} class represents the window (stage) where the game will be displayed.
- * It sets up the user interface, including loading the FXML file, configuring the controller,
- * and adjusting window properties such as size and icon.
- */
-public class GameStage extends Stage {
-    /**
+public class OpponentBoardStage extends Stage {
+        /**
      * The controller associated with the game view.
      */
-    private final GameController gameController;
+    private final OpponentBoardController opponentBoardController;
 
     /**
      * Creates a new {@code GameStage} instance, loads the FXML file, and sets up the UI properties.
      *
      * @throws IOException if the FXML file cannot be loaded.
      */
-    public GameStage() throws IOException {
+    public OpponentBoardStage() throws IOException {
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/com/example/miniproyect3fpoe/game-view.fxml")
+                getClass().getResource("/com/example/miniproyect3fpoe/opponent-board-view.fxml")
         );
         Parent root = loader.load();
-        gameController = loader.getController();
+        opponentBoardController = loader.getController();
         Scene scene = new Scene(root);
         setScene(scene);
-        setTitle("Board");
+        setTitle("Opponent Board");
 //        getIcons().add(new Image(String.valueOf(
 //                getClass().getResource("/proyecto1/numero-1.png"))
 //        ));
@@ -47,18 +42,18 @@ public class GameStage extends Stage {
      *
      * @return the {@code GameController} instance controlling the game logic.
      */
-    public GameController getGameController() {
-        return gameController;
+    public OpponentBoardController getOpponentBoardController() {
+        return opponentBoardController;
     }
 
     /**
      * Nested static class that holds the singleton instance of {@code GameStage}.
      */
-    private static class GameStageHolder {
+    private static class OpponentBoardStageHolder {
         /**
          * Singleton instance of {@code GameStage}.
          */
-        private static GameStage INSTANCE;
+        private static OpponentBoardStage INSTANCE;
     }
 
     /**
@@ -67,20 +62,20 @@ public class GameStage extends Stage {
      * @return the singleton instance of {@code GameStage}.
      * @throws IOException if the FXML file cannot be loaded during instantiation.
      */
-    public static GameStage getInstance() throws IOException {
-        GameStageHolder.INSTANCE =
-                GameStageHolder.INSTANCE != null ?
-                        GameStageHolder.INSTANCE :
-                        new GameStage();
+    public static OpponentBoardStage getInstance() throws IOException {
+        OpponentBoardStage.OpponentBoardStageHolder.INSTANCE =
+                OpponentBoardStage.OpponentBoardStageHolder.INSTANCE != null ?
+                        com.example.miniproyect3fpoe.view.OpponentBoardStage.OpponentBoardStageHolder.INSTANCE :
+                        new OpponentBoardStage();
 
-        return GameStageHolder.INSTANCE;
+        return OpponentBoardStageHolder.INSTANCE;
     }
 
     /**
      * Closes the current {@code GameStage} instance and resets the singleton to null.
      */
     public static void deleteInstance() {
-        GameStageHolder.INSTANCE.close();
-        GameStageHolder.INSTANCE = null;
+        OpponentBoardStageHolder.INSTANCE.close();
+        OpponentBoardStageHolder.INSTANCE = null;
     }
 }
