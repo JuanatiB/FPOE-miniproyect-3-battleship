@@ -65,7 +65,7 @@ public class Board {
      * @param startCol Starting column for the ship.
      * @return true if the placement is valid, false otherwise.
      */
-    private boolean isPlacementValid(Ship ship, int startRow, int startCol) {
+    public boolean isPlacementValid(Ship ship, int startRow, int startCol) {
         for (int i = 0; i < ship.getSize(); i++) {
             int row = ship.isHorizontal() ? startRow : startRow + i;
             int col = ship.isHorizontal() ? startCol + i : startCol;
@@ -141,8 +141,15 @@ public class Board {
         }
     }
 
-    // Getter for the board size
-    public int getBoardSize() {
-        return BOARD_SIZE;
+    // Getter for the list of ships
+    public List<Ship> getShips() {
+        return ships;
     }
+
+    public void reset() {
+        initializeGrid(); // Vuelve a llenar la matriz con celdas vacías
+        ships.clear();    // Elimina todos los barcos
+    }
+
+
 }
