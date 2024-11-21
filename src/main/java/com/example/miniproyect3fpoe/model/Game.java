@@ -13,9 +13,12 @@ public class Game implements IGame {
 
     @Override
     public String processHumanShot(int row, int col) {
-        // El humano dispara al tablero de la máquina
         String result = machine.playTurn(row, col, machine.getBoard());
-        if (checkVictory()) {
+        System.out.println("Machine Board State After Human Shot:");
+        machine.getBoard().printBoard(); // Para depurar el estado del tablero de la máquina
+
+        if (machine.getBoard().isGameOver()) {
+            System.out.println("Machine has lost. Declaring Human as the winner.");
             winner = "Human";
         }
         return result;
@@ -23,18 +26,28 @@ public class Game implements IGame {
 
     @Override
     public String processMachineShot(int row, int col) {
-        // La máquina dispara al tablero del humano
         String result = human.playTurn(row, col, human.getBoard());
-        if (checkVictory()) {
+        System.out.println("Human Board State After Machine Shot:");
+        human.getBoard().printBoard(); // Para depurar el estado del tablero del humano
+
+        if (human.getBoard().isGameOver()) {
+            System.out.println("Human has lost. Declaring Machine as the winner.");
             winner = "Machine";
         }
         return result;
     }
 
+
     @Override
     public boolean checkVictory() {
-        return human.hasLost() || machine.hasLost();
+        System.out.println("Checking victory condition...");
+        boolean humanLost = human.getBoard().isGameOver();
+        boolean machineLost = machine.getBoard().isGameOver();
+        System.out.println("Human lost: " + humanLost + ", Machine lost: " + machineLost);
+
+        return humanLost || machineLost;
     }
+
 
     @Override
     public String getWinner() {
