@@ -71,7 +71,7 @@ public class PlacementController {
         // Configuración del GridPane y sus celdas
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
-                Rectangle cell = new Rectangle(30, 30);
+                Rectangle cell = new Rectangle(25, 25);
                 cell.setFill(Color.LIGHTBLUE);
                 cell.setStroke(Color.BLACK);
 
@@ -219,7 +219,7 @@ public class PlacementController {
     private void checkAllShipsPlaced() {
         if (human.getShips().stream().allMatch(ship -> humanBoard.getShips().contains(ship))) {
             startButton.setDisable(false);
-            startButton.setStyle("-fx-background-color: #4caf50; -fx-text-fill: white; -fx-font-weight: bold;");
+            startButton.setStyle("-fx-background-color: #d6dbdf; -fx-text-fill: #1e2e51; -fx-font-weight: impact;");
             ownBoardGrid.setDisable(true); // Desactiva el tablero
             System.out.println("All ships placed! Board is now disabled.");
         }

@@ -22,13 +22,13 @@ public InstructionStage() throws IOException {
         instructionController = loader.getController();
         Scene scene = new Scene(root);
         setScene(scene);
-        setTitle("Instructions");
+        setTitle("Instrucciones y creditos");
 //        getIcons().add(new Image(String.valueOf(
 //                getClass().getResource("/proyecto1/numero-1.png"))
 //        ));
         setResizable(false);
-        setWidth(800);
-        setHeight(500);
+        setWidth(400);
+        setHeight(700);
         show();
     }
 
