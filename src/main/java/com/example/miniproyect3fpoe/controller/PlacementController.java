@@ -99,12 +99,16 @@ public class PlacementController {
 
     @FXML
     private void handleStartButton() throws IOException {
+        // Asegúrate de que los barcos de la máquina sean colocados antes de iniciar el juego
+        game.machine.placeShips();
+
         // Crear y configurar el GameStage
         GameStage.getInstance().getGameController().setGame(game);
 
         // Cerrar el PlacementStage
         PlacementStage.deleteInstance();
     }
+
 
 
 

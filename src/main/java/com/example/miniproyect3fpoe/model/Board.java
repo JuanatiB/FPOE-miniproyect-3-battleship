@@ -122,12 +122,45 @@ public class Board {
      * @return true if all ships are sunk, false otherwise.
      */
     public boolean isGameOver() {
+        System.out.println("Checking if all ships are sunk...");
         for (Ship ship : ships) {
             if (!ship.isSunk()) {
+                System.out.println("Ship " + ship.getName() + " is not sunk.");
                 return false;
             }
         }
+        System.out.println("All ships are sunk. Game over.");
         return true;
+    }
+
+
+
+    /**
+     * Verifies if a specific cell is a hit.
+     *
+     * @param row Row to check.
+     * @param col Column to check.
+     * @return true if the cell is a hit, false otherwise.
+     */
+    public boolean isHit(int row, int col) {
+        if (row < 0 || row >= BOARD_SIZE || col < 0 || col >= BOARD_SIZE) {
+            return false; // Out of bounds
+        }
+        return grid[row][col] == HIT;
+    }
+
+    /**
+     * Verifies if a specific cell is a miss.
+     *
+     * @param row Row to check.
+     * @param col Column to check.
+     * @return true if the cell is a miss, false otherwise.
+     */
+    public boolean isMiss(int row, int col) {
+        if (row < 0 || row >= BOARD_SIZE || col < 0 || col >= BOARD_SIZE) {
+            return false; // Out of bounds
+        }
+        return grid[row][col] == MISS;
     }
 
     /**
@@ -148,21 +181,18 @@ public class Board {
     }
 
     public void reset() {
-        initializeGrid(); // Vuelve a llenar la matriz con celdas vacías
-        ships.clear();    // Elimina todos los barcos
+        initializeGrid(); // Fills the grid with empty cells again
+        ships.clear();    // Removes all ships
     }
 
     /**
-     * Verifica si una celda específica está ocupada por un barco.
+     * Verifies if a specific cell is occupied by a ship.
      *
-     * @param row La fila a verificar.
-     * @param col La columna a verificar.
-     * @return true si la celda está ocupada, false en caso contrario.
+     * @param row Row to check.
+     * @param col Column to check.
+     * @return true if the cell is occupied, false otherwise.
      */
     public boolean occupiesCell(int row, int col) {
-        return grid[row][col] == SHIP; // Compara con el carácter que representa un barco
+        return grid[row][col] == SHIP;
     }
-
-
-
 }
