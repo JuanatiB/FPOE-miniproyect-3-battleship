@@ -1,13 +1,23 @@
 package com.example.miniproyect3fpoe.controller;
 
 import com.example.miniproyect3fpoe.model.Game;
+import com.example.miniproyect3fpoe.model.Ship;
+import com.example.miniproyect3fpoe.utils.ImageUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+
+import java.io.InputStream;
 
 public class GameController {
 
@@ -20,8 +30,6 @@ public class GameController {
     @FXML
     private Label resultLabel;
 
-
-
     /**
      * Configura el juego al recibir una instancia de Game.
      *
@@ -29,42 +37,107 @@ public class GameController {
      */
     public void setGame(Game game) {
         this.game = game;
-        initializeHumanBoardUI();
+        initializeHumanBoardUIWithImages();
         initializeMachineBoardUI();
-    }
-
-    /**
-     * Retorna la instancia actual de Game.
-     *
-     * @return Instancia del juego.
-     */
-    public Game getGame() {
-        return game;
     }
 
     /**
      * Inicializa el tablero del jugador humano para mostrar los barcos colocados.
      */
-    private void initializeHumanBoardUI() {
-        ownBoardGrid.getChildren().clear();
-        var humanBoard = game.human.getBoard();
+    private void initializeHumanBoardUIWithImages() {
+        ownBoardGrid.getChildren().clear(); // Limpiar contenido existente
 
+        // Configurar el GridPane con celdas de tamaño fijo
+        configureGridPane(ownBoardGrid, 30.0); // Cada celda de 30x30
+
+        var humanBoard = game.human.getBoard();
+        var ships = humanBoard.getShips();
+
+        // Dimensiones de una celda en el tablero
+        double cellWidth = 30.0;
+        double cellHeight = 30.0;
+
+        // Añadir imágenes de barcos al tablero
+        for (Ship ship : ships) {
+            String imagePath = getImagePathForShip(ship.getSize());
+            if (imagePath == null) continue;
+
+            // Crear el ImageView para la imagen del barco
+            ImageView shipImage = ImageUtils.loadImage(imagePath);
+
+            // Rotar y redimensionar según la orientación
+            if (ship.isHorizontal()) {
+                ImageUtils.resizeImage(shipImage, cellWidth * ship.getSize(), cellHeight);
+            } else {
+                ImageUtils.resizeImage(shipImage, cellWidth, cellHeight * ship.getSize());
+                ImageUtils.rotateImage(shipImage, 90);
+            }
+
+            // Coordenadas iniciales del barco
+            int[] startCoord = ship.getCoordinates().get(0);
+            int startRow = startCoord[0];
+            int startCol = startCoord[1];
+
+            // Añadir la imagen al GridPane
+            ownBoardGrid.add(shipImage, startCol, startRow);
+            if (ship.isHorizontal()) {
+                GridPane.setColumnSpan(shipImage, ship.getSize());
+            } else {
+                GridPane.setRowSpan(shipImage, ship.getSize());
+            }
+        }
+
+        // Añadir celdas vacías o disparos sobre las imágenes
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
-                Rectangle cell = new Rectangle(30, 30);
+                Rectangle cell = new Rectangle(cellWidth, cellHeight);
                 cell.setStroke(Color.BLACK);
-                cell.setFill(humanBoard.occupiesCell(row, col) ? Color.DARKGRAY : Color.LIGHTBLUE);
 
-                // Muestra los disparos hechos por la máquina
                 if (humanBoard.isHit(row, col)) {
                     cell.setFill(Color.RED);
                 } else if (humanBoard.isMiss(row, col)) {
                     cell.setFill(Color.YELLOW);
+                } else if (!humanBoard.occupiesCell(row, col)) {
+                    cell.setFill(Color.LIGHTBLUE);
+                } else {
+                    cell.setFill(Color.TRANSPARENT); // Transparente para no ocultar las imágenes
                 }
 
                 ownBoardGrid.add(cell, col, row);
             }
         }
+    }
+
+
+
+    private void configureGridPane(GridPane gridPane, double cellSize) {
+        gridPane.getColumnConstraints().clear();
+        gridPane.getRowConstraints().clear();
+
+        // Configurar columnas y filas con tamaño fijo
+        for (int i = 0; i < 10; i++) { // 10 es el tamaño del tablero
+            ColumnConstraints colConstraints = new ColumnConstraints(cellSize);
+            colConstraints.setHalignment(HPos.CENTER); // Centrar horizontalmente
+            gridPane.getColumnConstraints().add(colConstraints);
+
+            RowConstraints rowConstraints = new RowConstraints(cellSize);
+            rowConstraints.setValignment(VPos.CENTER); // Centrar verticalmente
+            gridPane.getRowConstraints().add(rowConstraints);
+        }
+    }
+
+
+    /**
+     * Devuelve la ruta de la imagen correspondiente al tamaño del barco.
+     */
+    private String getImagePathForShip(int size) {
+        return switch (size) {
+            case 4 -> "/com/example/miniproyect3fpoe/images/portaaviones.png";
+            case 3 -> "/com/example/miniproyect3fpoe/images/submarino.png";
+            case 2 -> "/com/example/miniproyect3fpoe/images/destructor.png";
+            case 1 -> "/com/example/miniproyect3fpoe/images/fragata.png";
+            default -> null;
+        };
     }
 
     /**
@@ -164,17 +237,24 @@ public class GameController {
         var humanBoard = game.human.getBoard();
 
         for (var node : ownBoardGrid.getChildren()) {
-            int row = GridPane.getRowIndex(node);
-            int col = GridPane.getColumnIndex(node);
-            Rectangle rect = (Rectangle) node;
+            // Verificar si el nodo es un Rectangle
+            if (node instanceof Rectangle rect) {
+                int row = GridPane.getRowIndex(node);
+                int col = GridPane.getColumnIndex(node);
 
-            if (humanBoard.isHit(row, col)) {
-                rect.setFill(Color.RED);
-            } else if (humanBoard.isMiss(row, col)) {
-                rect.setFill(Color.YELLOW);
+                if (humanBoard.isHit(row, col)) {
+                    rect.setFill(Color.RED);
+                } else if (humanBoard.isMiss(row, col)) {
+                    rect.setFill(Color.YELLOW);
+                }
+            }
+            // Si es un ImageView (barco), lo ignoramos
+            else if (node instanceof ImageView) {
+                // No hacemos nada porque los barcos no cambian
             }
         }
     }
+
 
     /**
      * Finaliza el juego y muestra el ganador.
