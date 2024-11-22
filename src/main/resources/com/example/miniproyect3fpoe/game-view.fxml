@@ -17,6 +17,6 @@
         <Label fx:id="resultLabel" text="" style="-fx-font-size: 14px; -fx-font-weight: bold;" layoutX="275.0" layoutY="380.0" />
 
         <!-- Botón alineado a la derecha -->
-        <Button fx:id="viewMachineBoardButton" text="View Machine Board" layoutX="550.0" layoutY="400.0" onAction="#handleViewMachineBoard" />
+        <Button text="Ver Tablero de la Máquina" onAction="#handleViewMachineBoard" />
     </children>
 </AnchorPane>

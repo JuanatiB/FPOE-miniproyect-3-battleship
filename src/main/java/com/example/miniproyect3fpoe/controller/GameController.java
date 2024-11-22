@@ -1,12 +1,18 @@
 package com.example.miniproyect3fpoe.controller;
 
+import com.example.miniproyect3fpoe.model.Board;
 import com.example.miniproyect3fpoe.model.Game;
+import com.example.miniproyect3fpoe.model.MachineAdapter;
 import com.example.miniproyect3fpoe.model.Ship;
 import com.example.miniproyect3fpoe.utils.ImageUtils;
+import com.example.miniproyect3fpoe.view.OpponentBoardStage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -16,7 +22,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 public class GameController {
@@ -24,7 +32,7 @@ public class GameController {
     public Button viewMachineBoardButton; // Botón para ver el tablero de la máquina
     public GridPane ownBoardGrid;         // Tablero propio del jugador
     public GridPane machineBoardGrid;     // Tablero de ataque a la máquina
-
+    private MachineAdapter machinePlayer; // Jugador máquina
     private Game game;
 
     @FXML
@@ -37,6 +45,7 @@ public class GameController {
      */
     public void setGame(Game game) {
         this.game = game;
+        this.machinePlayer = game.machine; // Inicializar la referencia a MachineAdapter
         initializeHumanBoardUIWithImages();
         initializeMachineBoardUI();
     }
@@ -107,8 +116,6 @@ public class GameController {
             }
         }
     }
-
-
 
     private void configureGridPane(GridPane gridPane, double cellSize) {
         gridPane.getColumnConstraints().clear();
@@ -271,8 +278,20 @@ public class GameController {
     /**
      * Maneja el botón para ver el tablero completo de la máquina.
      */
-    public void handleViewMachineBoard(ActionEvent actionEvent) {
-        System.out.println("Viewing machine board...");
-        // Implementación para abrir la ventana del tablero de la máquina
+    @FXML
+    private void handleViewMachineBoard() {
+        try {
+            if (machinePlayer != null) {
+                OpponentBoardStage opponentBoardStage = new OpponentBoardStage(machinePlayer.getBoard());
+                opponentBoardStage.show();
+            } else {
+                System.err.println("Error: machinePlayer no está inicializado.");
+            }
+        } catch (IOException e) {
+            System.err.println("Error al cargar la vista del tablero del oponente: " + e.getMessage());
+        }
     }
+
+
+
 }
