@@ -1,16 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="30.0" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.miniproyect3fpoe.controller.InstructionController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.miniproyect3fpoe.controller.InstructionController">
    <children>
-      <Label text="Label" />
-      <Button fx:id="BackButton" mnemonicParsing="false" onAction="#HandleBack" text="Button" />
+      <ImageView fitHeight="691.0" fitWidth="407.0" layoutX="-4.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/instructions.jpeg" />
+         </image>
+      </ImageView>
+      <Text fill="WHITE" fontSmoothingType="LCD" layoutX="64.0" layoutY="85.0" stroke="BLACK" strokeWidth="0.7" text="Primero, coloca tus naves en el tablero propio (izquierda) seleccionando una celda inicial con un clic." textAlignment="CENTER" wrappingWidth="253.33331298828125">
+         <font>
+            <Font name="Impact" size="15.0" />
+         </font></Text>
+
+      <Label alignment="CENTER" layoutX="110.0" layoutY="23.0" prefHeight="33.0" prefWidth="159.0" style="-fx-background-color: #1E2E51;" text="INSTRUCCIONES" textFill="#d6dbdf">
+         <font>
+            <Font name="Impact" size="24.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1e2e51" height="46.0" layoutX="287.0" layoutY="533.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="82.0" />
+      <Button fx:id="BackButton" layoutX="292.0" layoutY="539.0" mnemonicParsing="false" onAction="#HandleBack" prefHeight="33.0" prefWidth="72.0" style="-fx-background-color: #d6dbdf;" text="Volver" textFill="#1e2e51">
+         <font>
+            <Font name="Impact" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Text fill="WHITE" fontSmoothingType="LCD" layoutX="63.0" layoutY="151.0" stroke="BLACK" strokeWidth="0.7" text="Usa la tecla barra espaciadora para cambiar la orientación entre horizontal y vertical. Cuando todas las naves estén colocadas correctamente, el botón &quot;Start&quot; se activará para iniciar el juego." textAlignment="CENTER" wrappingWidth="253.33331298828125">
+         <font>
+            <Font name="Impact" size="15.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" fontSmoothingType="LCD" layoutX="64.0" layoutY="259.0" stroke="BLACK" strokeWidth="0.7" text="En cada turno, da clic en una celda del tablero enemigo (derecha) para disparar." textAlignment="CENTER" wrappingWidth="253.33331298828125">
+         <font>
+            <Font name="Impact" size="15.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" fontSmoothingType="LCD" layoutX="64.0" layoutY="331.0" stroke="BLACK" strokeWidth="0.7" text="Los colores indican el resultado: amarillo para disparos fallidos y rojo si golpeas una nave." textAlignment="CENTER" wrappingWidth="253.33331298828125">
+         <font>
+            <Font name="Impact" size="15.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" fontSmoothingType="LCD" layoutX="64.0" layoutY="398.0" stroke="BLACK" strokeWidth="0.7" text="El juego termina cuando uno de los jugadores hunde todas las naves del otro. Si ganas, verás el mensaje &quot;Felicidades, ganaste!&quot;, y si pierdes, &quot;Lo siento, la máquina ganó esta.&quot;" textAlignment="CENTER" wrappingWidth="253.33331298828125">
+         <font>
+            <Font name="Impact" size="15.0" />
+         </font>
+      </Text>
+      <Label layoutX="33.0" layoutY="491.0" prefHeight="25.0" prefWidth="123.0" style="-fx-background-color: #1E2E51;" text="Juan Natib 2375437" textFill="#d6dbdf">
+         <font>
+            <Font name="Impact" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="33.0" layoutY="527.0" prefHeight="25.0" prefWidth="159.0" style="-fx-background-color: #1E2E51;" text="Hector Sanchez 2340635" textFill="#d6dbdf">
+         <font>
+            <Font name="Impact" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="33.0" layoutY="564.0" prefHeight="25.0" prefWidth="152.0" style="-fx-background-color: #1E2E51;" text="Camilo Vidalez 2354890" textFill="#d6dbdf">
+         <font>
+            <Font name="Impact" size="15.0" />
+         </font>
+      </Label>
    </children>
-   <padding>
-      <Insets left="10.0" />
-   </padding>
-</VBox>
+</AnchorPane>

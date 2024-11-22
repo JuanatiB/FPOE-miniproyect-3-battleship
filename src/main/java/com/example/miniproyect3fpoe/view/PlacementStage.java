@@ -1,6 +1,6 @@
 package com.example.miniproyect3fpoe.view;
 
-import com.example.miniproyect3fpoe.controller.GameController;
+import com.example.miniproyect3fpoe.controller.PlacementController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,32 +14,32 @@ import java.io.IOException;
  * It sets up the user interface, including loading the FXML file, configuring the controller,
  * and adjusting window properties such as size and icon.
  */
-public class GameStage extends Stage {
+public class PlacementStage extends Stage {
     /**
      * The controller associated with the game view.
      */
-    private final GameController gameController;
+    private final PlacementController placementController;
 
     /**
      * Creates a new {@code GameStage} instance, loads the FXML file, and sets up the UI properties.
      *
      * @throws IOException if the FXML file cannot be loaded.
      */
-    public GameStage() throws IOException {
+    public PlacementStage() throws IOException {
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/com/example/miniproyect3fpoe/game-view.fxml")
+                getClass().getResource("/com/example/miniproyect3fpoe/placement-view.fxml")
         );
         Parent root = loader.load();
-        gameController = loader.getController();
+        placementController = loader.getController();
         Scene scene = new Scene(root);
         setScene(scene);
-        setTitle("!Batalla Naval!");
+        setTitle("Posicionamiento");
         getIcons().add(new Image(String.valueOf(
                 getClass().getResource("/com/example/miniproyect3fpoe/images/favicon.png"))
         ));
         setResizable(false);
-        setWidth(1000);
-        setHeight(570);
+        setWidth(700);
+        setHeight(400);
         show();
     }
 
@@ -48,8 +48,8 @@ public class GameStage extends Stage {
      *
      * @return the {@code GameController} instance controlling the game logic.
      */
-    public GameController getGameController() {
-        return gameController;
+    public PlacementController getGameController() {
+        return placementController;
     }
 
     /**
@@ -59,7 +59,7 @@ public class GameStage extends Stage {
         /**
          * Singleton instance of {@code GameStage}.
          */
-        private static GameStage INSTANCE;
+        private static PlacementStage INSTANCE;
     }
 
     /**
@@ -68,11 +68,11 @@ public class GameStage extends Stage {
      * @return the singleton instance of {@code GameStage}.
      * @throws IOException if the FXML file cannot be loaded during instantiation.
      */
-    public static GameStage getInstance() throws IOException {
+    public static PlacementStage getInstance() throws IOException {
         GameStageHolder.INSTANCE =
                 GameStageHolder.INSTANCE != null ?
                         GameStageHolder.INSTANCE :
-                        new GameStage();
+                        new PlacementStage();
 
         return GameStageHolder.INSTANCE;
     }

@@ -5,6 +5,7 @@ import com.example.miniproyect3fpoe.controller.InstructionController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -22,13 +23,13 @@ public InstructionStage() throws IOException {
         instructionController = loader.getController();
         Scene scene = new Scene(root);
         setScene(scene);
-        setTitle("Instructions");
-//        getIcons().add(new Image(String.valueOf(
-//                getClass().getResource("/proyecto1/numero-1.png"))
-//        ));
+        setTitle("Instrucciones y creditos");
+        getIcons().add(new Image(String.valueOf(
+                getClass().getResource("/com/example/miniproyect3fpoe/images/favicon.png"))
+        ));
         setResizable(false);
-        setWidth(800);
-        setHeight(500);
+        setWidth(400);
+        setHeight(643);
         show();
     }
 
