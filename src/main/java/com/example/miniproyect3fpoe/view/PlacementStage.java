@@ -4,6 +4,7 @@ import com.example.miniproyect3fpoe.controller.PlacementController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -33,9 +34,9 @@ public class PlacementStage extends Stage {
         Scene scene = new Scene(root);
         setScene(scene);
         setTitle("Posicionamiento");
-//        getIcons().add(new Image(String.valueOf(
-//                getClass().getResource("/proyecto1/numero-1.png"))
-//        ));
+        getIcons().add(new Image(String.valueOf(
+                getClass().getResource("/com/example/miniproyect3fpoe/images/favicon.png"))
+        ));
         setResizable(false);
         setWidth(700);
         setHeight(400);

@@ -4,6 +4,7 @@ import com.example.miniproyect3fpoe.controller.GameController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -32,13 +33,13 @@ public class GameStage extends Stage {
         gameController = loader.getController();
         Scene scene = new Scene(root);
         setScene(scene);
-        setTitle("Board");
-//        getIcons().add(new Image(String.valueOf(
-//                getClass().getResource("/proyecto1/numero-1.png"))
-//        ));
+        setTitle("!Batalla Naval!");
+        getIcons().add(new Image(String.valueOf(
+                getClass().getResource("/com/example/miniproyect3fpoe/images/favicon.png"))
+        ));
         setResizable(false);
-        setWidth(800);
-        setHeight(500);
+        setWidth(1000);
+        setHeight(570);
         show();
     }
 
