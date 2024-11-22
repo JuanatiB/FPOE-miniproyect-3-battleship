@@ -195,4 +195,9 @@ public class Board {
     public boolean occupiesCell(int row, int col) {
         return grid[row][col] == SHIP;
     }
+
+    public char[][] getGrid() {
+        return grid;
+    }
+
 }

@@ -25,6 +25,9 @@ public class OpponentBoardController {
     /**
      * Actualiza la vista del tablero del oponente.
      */
+    /**
+     * Actualiza la vista del tablero del oponente.
+     */
     private void updateBoard() {
         opponentBoardGrid.getChildren().clear();
 
@@ -33,16 +36,32 @@ public class OpponentBoardController {
                 Rectangle cell = new Rectangle(30, 30);
                 cell.setStroke(Color.BLACK);
 
-                if (machineBoard.occupiesCell(row, col)) {
-                    cell.setFill(Color.DARKGRAY); // Barco
-                } else {
-                    cell.setFill(Color.LIGHTBLUE); // Agua
+                // Obtener el estado de la celda
+                char cellState = machineBoard.getGrid()[row][col];
+
+                // Asignar color según el estado de la celda
+                switch (cellState) {
+                    case '-': // Vacío
+                        cell.setFill(Color.LIGHTBLUE);
+                        break;
+                    case 'X': // Golpe
+                        cell.setFill(Color.RED);
+                        break;
+                    case 'O': // Fallo
+                        cell.setFill(Color.YELLOW);
+                        break;
+                    case 'S': // Barco
+                        cell.setFill(Color.DARKGRAY);
+                        break;
+                    default: // Estado desconocido
+                        cell.setFill(Color.WHITE);
                 }
 
                 opponentBoardGrid.add(cell, col, row);
             }
         }
     }
+
 
     /**
      * Cierra la ventana actual.
