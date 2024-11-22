@@ -4,18 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
-    public static final int BOARD_SIZE = 10; // Size of the board (10x10 grid)
-    private final char[][] grid; // Grid representing the board
-    private final List<Ship> ships; // List of ships placed on the board
+    public static final int BOARD_SIZE = 10;
+    private final char[][] grid;
+    private final List<Ship> ships;
 
-    // Characters representing the state of each cell
-    private static final char EMPTY = '-'; // Empty cell
-    private static final char SHIP = 'S'; // Cell occupied by a ship
-    private static final char HIT = 'X'; // Cell hit successfully
-    private static final char MISS = 'O'; // Cell hit unsuccessfully
+    private static final char EMPTY = '-';
+    private static final char SHIP = 'S';
+    private static final char HIT = 'X';
+    private static final char MISS = 'O';
 
     /**
-     * Constructor for the Board class. Initializes the grid and the list of ships.
+     * Constructs a new board with a predefined size and initializes it with empty cells.
      */
     public Board() {
         grid = new char[BOARD_SIZE][BOARD_SIZE];
@@ -24,7 +23,7 @@ public class Board {
     }
 
     /**
-     * Initializes the grid with empty cells.
+     * Initializes the board grid with empty cells.
      */
     private void initializeGrid() {
         for (int row = 0; row < BOARD_SIZE; row++) {
@@ -36,46 +35,44 @@ public class Board {
 
     /**
      * Places a ship on the board if the placement is valid.
-     * @param ship The ship to place.
-     * @param startRow Starting row for the ship.
-     * @param startCol Starting column for the ship.
-     * @return true if the ship was placed successfully, false otherwise.
+     *
+     * @param ship     the ship to place
+     * @param startRow the starting row for the ship
+     * @param startCol the starting column for the ship
+     * @return true if the ship is successfully placed, false otherwise
      */
     public boolean placeShip(Ship ship, int startRow, int startCol) {
         if (!isPlacementValid(ship, startRow, startCol)) {
             return false;
         }
 
-        // Set the coordinates of the ship
         ship.setCoordinates(startRow, startCol);
 
-        // Mark the ship's position on the grid
         for (int[] coord : ship.getCoordinates()) {
             grid[coord[0]][coord[1]] = SHIP;
         }
 
-        ships.add(ship); // Add the ship to the list
+        ships.add(ship);
         return true;
     }
 
     /**
-     * Checks if the placement of a ship is valid.
-     * @param ship The ship to validate.
-     * @param startRow Starting row for the ship.
-     * @param startCol Starting column for the ship.
-     * @return true if the placement is valid, false otherwise.
+     * Validates whether a ship can be placed at the specified position.
+     *
+     * @param ship     the ship to validate
+     * @param startRow the starting row for the ship
+     * @param startCol the starting column for the ship
+     * @return true if the placement is valid, false otherwise
      */
     public boolean isPlacementValid(Ship ship, int startRow, int startCol) {
         for (int i = 0; i < ship.getSize(); i++) {
             int row = ship.isHorizontal() ? startRow : startRow + i;
             int col = ship.isHorizontal() ? startCol + i : startCol;
 
-            // Check bounds
             if (row < 0 || row >= BOARD_SIZE || col < 0 || col >= BOARD_SIZE) {
                 return false;
             }
 
-            // Check if the cell is already occupied
             if (grid[row][col] != EMPTY) {
                 return false;
             }
@@ -84,67 +81,62 @@ public class Board {
     }
 
     /**
-     * Registers a shot on the board and returns the result.
-     * @param row Row of the shot.
-     * @param col Column of the shot.
-     * @return The result of the shot ("miss", "hit", or "sunk").
+     * Registers a shot on the board and determines the result.
+     *
+     * @param row the row of the shot
+     * @param col the column of the shot
+     * @return the result of the shot ("miss", "hit", "sunk", or "invalid")
      */
     public String registerShot(int row, int col) {
         if (row < 0 || row >= BOARD_SIZE || col < 0 || col >= BOARD_SIZE) {
-            return "invalid"; // Invalid shot
+            return "invalid";
         }
 
         if (grid[row][col] == MISS || grid[row][col] == HIT) {
-            return "already shot"; // Cell already shot
+            return "already shot";
         }
 
         if (grid[row][col] == SHIP) {
-            grid[row][col] = HIT; // Mark the cell as hit
+            grid[row][col] = HIT;
 
-            // Check which ship was hit
             for (Ship ship : ships) {
                 if (ship.registerHit(row, col)) {
                     if (ship.isSunk()) {
-                        return "sunk"; // The ship is completely sunk
+                        return "sunk";
                     }
-                    return "hit"; // The ship was hit but not sunk
+                    return "hit";
                 }
             }
         }
 
-        // If no ship is hit, it's a miss
         grid[row][col] = MISS;
         return "miss";
     }
 
     /**
      * Checks if all ships on the board have been sunk.
-     * @return true if all ships are sunk, false otherwise.
+     *
+     * @return true if all ships are sunk, false otherwise
      */
     public boolean isGameOver() {
-        System.out.println("Checking if all ships are sunk...");
         for (Ship ship : ships) {
             if (!ship.isSunk()) {
-                System.out.println("Ship " + ship.getName() + " is not sunk.");
                 return false;
             }
         }
-        System.out.println("All ships are sunk. Game over.");
         return true;
     }
-
-
 
     /**
      * Verifies if a specific cell is a hit.
      *
-     * @param row Row to check.
-     * @param col Column to check.
-     * @return true if the cell is a hit, false otherwise.
+     * @param row the row to check
+     * @param col the column to check
+     * @return true if the cell is a hit, false otherwise
      */
     public boolean isHit(int row, int col) {
         if (row < 0 || row >= BOARD_SIZE || col < 0 || col >= BOARD_SIZE) {
-            return false; // Out of bounds
+            return false;
         }
         return grid[row][col] == HIT;
     }
@@ -152,19 +144,20 @@ public class Board {
     /**
      * Verifies if a specific cell is a miss.
      *
-     * @param row Row to check.
-     * @param col Column to check.
-     * @return true if the cell is a miss, false otherwise.
+     * @param row the row to check
+     * @param col the column to check
+     * @return true if the cell is a miss, false otherwise
      */
     public boolean isMiss(int row, int col) {
         if (row < 0 || row >= BOARD_SIZE || col < 0 || col >= BOARD_SIZE) {
-            return false; // Out of bounds
+            return false;
         }
         return grid[row][col] == MISS;
     }
 
     /**
-     * Prints the current state of the board (for debugging purposes).
+     * Prints the current state of the board.
+     * Used for debugging purposes.
      */
     public void printBoard() {
         for (int row = 0; row < BOARD_SIZE; row++) {
@@ -175,24 +168,40 @@ public class Board {
         }
     }
 
-    // Getter for the list of ships
+    /**
+     * Gets the list of ships placed on the board.
+     *
+     * @return the list of ships
+     */
     public List<Ship> getShips() {
         return ships;
     }
 
+    /**
+     * Resets the board by clearing all ships and reinitializing the grid.
+     */
     public void reset() {
-        initializeGrid(); // Fills the grid with empty cells again
-        ships.clear();    // Removes all ships
+        initializeGrid();
+        ships.clear();
     }
 
     /**
      * Verifies if a specific cell is occupied by a ship.
      *
-     * @param row Row to check.
-     * @param col Column to check.
-     * @return true if the cell is occupied, false otherwise.
+     * @param row the row to check
+     * @param col the column to check
+     * @return true if the cell is occupied, false otherwise
      */
     public boolean occupiesCell(int row, int col) {
         return grid[row][col] == SHIP;
+    }
+
+    /**
+     * Gets the current grid representing the board.
+     *
+     * @return the grid as a 2D character array
+     */
+    public char[][] getGrid() {
+        return grid;
     }
 }

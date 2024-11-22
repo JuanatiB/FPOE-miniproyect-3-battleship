@@ -29,52 +29,44 @@ import java.io.InputStream;
 
 public class GameController {
 
-    public Button viewMachineBoardButton; // Botón para ver el tablero de la máquina
-    public GridPane ownBoardGrid;         // Tablero propio del jugador
-    public GridPane machineBoardGrid;     // Tablero de ataque a la máquina
-    private MachineAdapter machinePlayer; // Jugador máquina
+    public Button viewMachineBoardButton;
+    public GridPane ownBoardGrid;
+    public GridPane machineBoardGrid;
+    private MachineAdapter machinePlayer;
     private Game game;
 
     @FXML
     private Label resultLabel;
 
     /**
-     * Configura el juego al recibir una instancia de Game.
+     * Sets up the game instance and initializes both boards.
      *
-     * @param game Instancia del juego proporcionada por PlacementController.
+     * @param game the game instance provided by PlacementController
      */
     public void setGame(Game game) {
         this.game = game;
-        this.machinePlayer = game.machine; // Inicializar la referencia a MachineAdapter
+        this.machinePlayer = game.machine;
         initializeHumanBoardUIWithImages();
         initializeMachineBoardUI();
     }
 
     /**
-     * Inicializa el tablero del jugador humano para mostrar los barcos colocados.
+     * Initializes the player's board UI to display placed ships and status.
      */
     private void initializeHumanBoardUIWithImages() {
-        ownBoardGrid.getChildren().clear(); // Limpiar contenido existente
-
-        // Configurar el GridPane con celdas de tamaño fijo
-        configureGridPane(ownBoardGrid, 30.0); // Cada celda de 30x30
-
+        ownBoardGrid.getChildren().clear();
+        configureGridPane(ownBoardGrid, 30.0);
         var humanBoard = game.human.getBoard();
         var ships = humanBoard.getShips();
-
-        // Dimensiones de una celda en el tablero
         double cellWidth = 30.0;
         double cellHeight = 30.0;
 
-        // Añadir imágenes de barcos al tablero
         for (Ship ship : ships) {
             String imagePath = getImagePathForShip(ship.getSize());
             if (imagePath == null) continue;
 
-            // Crear el ImageView para la imagen del barco
             ImageView shipImage = ImageUtils.loadImage(imagePath);
 
-            // Rotar y redimensionar según la orientación
             if (ship.isHorizontal()) {
                 ImageUtils.resizeImage(shipImage, cellWidth * ship.getSize(), cellHeight);
             } else {
@@ -82,12 +74,10 @@ public class GameController {
                 ImageUtils.rotateImage(shipImage, 90);
             }
 
-            // Coordenadas iniciales del barco
             int[] startCoord = ship.getCoordinates().get(0);
             int startRow = startCoord[0];
             int startCol = startCoord[1];
 
-            // Añadir la imagen al GridPane
             ownBoardGrid.add(shipImage, startCol, startRow);
             if (ship.isHorizontal()) {
                 GridPane.setColumnSpan(shipImage, ship.getSize());
@@ -96,7 +86,6 @@ public class GameController {
             }
         }
 
-        // Añadir celdas vacías o disparos sobre las imágenes
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
                 Rectangle cell = new Rectangle(cellWidth, cellHeight);
@@ -109,7 +98,7 @@ public class GameController {
                 } else if (!humanBoard.occupiesCell(row, col)) {
                     cell.setFill(Color.LIGHTBLUE);
                 } else {
-                    cell.setFill(Color.TRANSPARENT); // Transparente para no ocultar las imágenes
+                    cell.setFill(Color.TRANSPARENT);
                 }
 
                 ownBoardGrid.add(cell, col, row);
@@ -117,25 +106,32 @@ public class GameController {
         }
     }
 
+    /**
+     * Configures the grid pane with fixed cell sizes.
+     *
+     * @param gridPane the grid pane to configure
+     * @param cellSize the size of each cell
+     */
     private void configureGridPane(GridPane gridPane, double cellSize) {
         gridPane.getColumnConstraints().clear();
         gridPane.getRowConstraints().clear();
 
-        // Configurar columnas y filas con tamaño fijo
-        for (int i = 0; i < 10; i++) { // 10 es el tamaño del tablero
+        for (int i = 0; i < 10; i++) {
             ColumnConstraints colConstraints = new ColumnConstraints(cellSize);
-            colConstraints.setHalignment(HPos.CENTER); // Centrar horizontalmente
+            colConstraints.setHalignment(HPos.CENTER);
             gridPane.getColumnConstraints().add(colConstraints);
 
             RowConstraints rowConstraints = new RowConstraints(cellSize);
-            rowConstraints.setValignment(VPos.CENTER); // Centrar verticalmente
+            rowConstraints.setValignment(VPos.CENTER);
             gridPane.getRowConstraints().add(rowConstraints);
         }
     }
 
-
     /**
-     * Devuelve la ruta de la imagen correspondiente al tamaño del barco.
+     * Retrieves the image path for a ship based on its size.
+     *
+     * @param size the size of the ship
+     * @return the image path or null if no image exists
      */
     private String getImagePathForShip(int size) {
         return switch (size) {
@@ -148,7 +144,7 @@ public class GameController {
     }
 
     /**
-     * Inicializa el tablero de la máquina para que el jugador humano pueda disparar.
+     * Initializes the machine's board for the player to attack.
      */
     private void initializeMachineBoardUI() {
         machineBoardGrid.getChildren().clear();
@@ -163,7 +159,6 @@ public class GameController {
                 int finalRow = row;
                 int finalCol = col;
 
-                // Interactividad del tablero de ataque
                 cell.setOnMouseClicked(e -> handleHumanShot(finalRow, finalCol));
                 machineBoardGrid.add(cell, col, row);
             }
@@ -171,55 +166,40 @@ public class GameController {
     }
 
     /**
-     * Maneja el disparo del jugador humano al tablero de la máquina.
+     * Handles the player's shot at the machine's board.
      *
-     * @param row Fila seleccionada.
-     * @param col Columna seleccionada.
+     * @param row the row selected by the player
+     * @param col the column selected by the player
      */
     private void handleHumanShot(int row, int col) {
-        System.out.println("Human shot at (" + row + ", " + col + ")...");
         String result = game.processHumanShot(row, col);
-        System.out.println("Human shot result: " + result);
-
-        // Actualiza el tablero de la máquina
         updateMachineBoardUI();
 
-        // Solo terminar si checkVictory confirma que alguien ha ganado
         if (game.checkVictory()) {
-            System.out.println("Victory detected after human shot.");
             endGame(game.getWinner());
             return;
         }
 
-        // Si no hay ganador, pasa al turno de la máquina
         handleMachineTurn();
     }
 
-
-
     /**
-     * La máquina realiza un disparo en el tablero del jugador humano.
+     * Processes the machine's turn to shoot at the player's board.
      */
     private void handleMachineTurn() {
-        // Generar coordenadas aleatorias de disparo desde MachineAdapter
         int row = (int) (Math.random() * 10);
         int col = (int) (Math.random() * 10);
 
-        // Registrar el disparo de la máquina en el tablero del humano
         String result = game.processMachineShot(row, col);
-        System.out.println("Machine shot result: " + result);
-
-        // Actualizar el tablero del jugador humano
         updateHumanBoardUI();
 
-        // Verificar si la máquina ha ganado
         if (game.checkVictory()) {
             endGame(game.getWinner());
         }
     }
 
     /**
-     * Actualiza la interfaz del tablero de la máquina.
+     * Updates the machine's board UI to reflect hits and misses.
      */
     private void updateMachineBoardUI() {
         var machineBoard = game.machine.getBoard();
@@ -238,13 +218,12 @@ public class GameController {
     }
 
     /**
-     * Actualiza la interfaz del tablero del jugador humano.
+     * Updates the player's board UI to reflect hits and misses.
      */
     private void updateHumanBoardUI() {
         var humanBoard = game.human.getBoard();
 
         for (var node : ownBoardGrid.getChildren()) {
-            // Verificar si el nodo es un Rectangle
             if (node instanceof Rectangle rect) {
                 int row = GridPane.getRowIndex(node);
                 int col = GridPane.getColumnIndex(node);
@@ -255,28 +234,22 @@ public class GameController {
                     rect.setFill(Color.YELLOW);
                 }
             }
-            // Si es un ImageView (barco), lo ignoramos
-            else if (node instanceof ImageView) {
-                // No hacemos nada porque los barcos no cambian
-            }
         }
     }
 
-
     /**
-     * Finaliza el juego y muestra el ganador.
+     * Ends the game and displays the winner.
      *
-     * @param winner Nombre del ganador.
+     * @param winner the name of the winner
      */
-
     private void endGame(String winner) {
-        resultLabel.setText(winner.equals("Human") ? "Felicidades, ganaste!" : "Lo siento, la máquina ganó esta");
+        resultLabel.setText(winner.equals("Human") ? "Congratulations, you won!" : "Sorry, the machine won.");
         ownBoardGrid.setDisable(true);
         machineBoardGrid.setDisable(true);
     }
 
     /**
-     * Maneja el botón para ver el tablero completo de la máquina.
+     * Handles the button to view the machine's full board.
      */
     @FXML
     private void handleViewMachineBoard() {
@@ -285,13 +258,10 @@ public class GameController {
                 OpponentBoardStage opponentBoardStage = new OpponentBoardStage(machinePlayer.getBoard());
                 opponentBoardStage.show();
             } else {
-                System.err.println("Error: machinePlayer no está inicializado.");
+                System.err.println("Error: machinePlayer is not initialized.");
             }
         } catch (IOException e) {
-            System.err.println("Error al cargar la vista del tablero del oponente: " + e.getMessage());
+            System.err.println("Error loading opponent board view: " + e.getMessage());
         }
     }
-
-
-
 }

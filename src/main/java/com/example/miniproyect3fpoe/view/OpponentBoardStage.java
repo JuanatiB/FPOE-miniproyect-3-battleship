@@ -9,14 +9,19 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * The {@code OpponentBoardStage} class represents the window (stage) where the opponent's board is displayed.
+ * It initializes the user interface and sets the board data to be shown.
+ */
 public class OpponentBoardStage extends Stage {
 
     private final OpponentBoardController controller;
 
     /**
-     * Constructor de OpponentBoardStage.
-     * @param machineBoard Tablero de la máquina a mostrar.
-     * @throws IOException Si no se puede cargar el archivo FXML.
+     * Constructs a new {@code OpponentBoardStage} instance, loads the FXML file, and sets up the opponent's board.
+     *
+     * @param machineBoard the opponent's board to be displayed
+     * @throws IOException if the FXML file cannot be loaded
      */
     public OpponentBoardStage(Board machineBoard) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/miniproyect3fpoe/opponent-board-view.fxml"));
@@ -25,13 +30,14 @@ public class OpponentBoardStage extends Stage {
         controller.setMachineBoard(machineBoard);
 
         setScene(new Scene(root));
-        setTitle("Tablero de la Máquina");
+        setTitle("Machine's Board");
         setResizable(false);
     }
 
     /**
-     * Obtiene el controlador asociado al OpponentBoardStage.
-     * @return OpponentBoardController.
+     * Returns the {@code OpponentBoardController} associated with this {@code OpponentBoardStage}.
+     *
+     * @return the {@code OpponentBoardController} instance managing the opponent's board logic
      */
     public OpponentBoardController getController() {
         return controller;

@@ -14,8 +14,9 @@ public class OpponentBoardController {
     private Board machineBoard;
 
     /**
-     * Configura el tablero de la máquina en el controlador.
-     * @param board Tablero de la máquina.
+     * Sets the machine's board and updates the view.
+     *
+     * @param board the machine's board
      */
     public void setMachineBoard(Board board) {
         this.machineBoard = board;
@@ -23,7 +24,7 @@ public class OpponentBoardController {
     }
 
     /**
-     * Actualiza la vista del tablero del oponente.
+     * Updates the opponent's board view based on the current state of the machine's board.
      */
     private void updateBoard() {
         opponentBoardGrid.getChildren().clear();
@@ -33,10 +34,23 @@ public class OpponentBoardController {
                 Rectangle cell = new Rectangle(30, 30);
                 cell.setStroke(Color.BLACK);
 
-                if (machineBoard.occupiesCell(row, col)) {
-                    cell.setFill(Color.DARKGRAY); // Barco
-                } else {
-                    cell.setFill(Color.LIGHTBLUE); // Agua
+                char cellState = machineBoard.getGrid()[row][col];
+
+                switch (cellState) {
+                    case '-': // Empty cell
+                        cell.setFill(Color.LIGHTBLUE);
+                        break;
+                    case 'X': // Hit
+                        cell.setFill(Color.RED);
+                        break;
+                    case 'O': // Miss
+                        cell.setFill(Color.YELLOW);
+                        break;
+                    case 'S': // Ship
+                        cell.setFill(Color.DARKGRAY);
+                        break;
+                    default: // Unknown state
+                        cell.setFill(Color.WHITE);
                 }
 
                 opponentBoardGrid.add(cell, col, row);
@@ -45,7 +59,7 @@ public class OpponentBoardController {
     }
 
     /**
-     * Cierra la ventana actual.
+     * Closes the current window.
      */
     @FXML
     private void closeWindow() {

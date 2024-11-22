@@ -21,14 +21,13 @@ public class PlacementController {
     private Board machineBoard;
     private final HumanAdapter human = new HumanAdapter(new Board());
     private final MachineAdapter machine = new MachineAdapter(new Board());
-
-    private Ship currentShip; // Barco actual que el jugador está posicionando
+    private Ship currentShip;
 
     @FXML
     private GridPane ownBoardGrid;
 
     /**
-     * Método llamado al inicializar el controlador.
+     * Initializes the controller and sets up the player's board UI.
      */
     @FXML
     public void initialize() {
@@ -36,23 +35,18 @@ public class PlacementController {
     }
 
     /**
-     * Configura el juego al recibir una instancia de Game.
-     * También inicializa los tableros y prepara el estado inicial del juego.
+     * Sets the game instance and initializes boards.
+     * Prepares the game for ship placement.
      *
-     * @param game Instancia de Game proporcionada por WelcomeController.
+     * @param game the Game instance provided by WelcomeController
      */
     public void setGame(Game game) {
         this.game = game;
-
-        // Acceder directamente a los tableros desde los jugadores
         this.humanBoard = game.human.getBoard();
         this.machineBoard = game.machine.getBoard();
-
-        // Reiniciar el estado inicial de los tableros
         this.humanBoard.reset();
         this.machineBoard.reset();
 
-        // Configurar el primer barco que el jugador humano debe colocar
         if (!game.human.getShips().isEmpty()) {
             this.currentShip = game.human.getShips().get(0);
         }
@@ -60,15 +54,13 @@ public class PlacementController {
         System.out.println("Game set successfully. Ready to start!");
     }
 
-
     /**
-     * Inicializa el GridPane para mostrar el tablero del jugador.
+     * Initializes the player's board UI with a GridPane.
      */
     @FXML
     private void initializeOwnBoardUI() {
         ownBoardGrid.getChildren().clear();
 
-        // Configuración del GridPane y sus celdas
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
                 Rectangle cell = new Rectangle(25, 25);
@@ -86,46 +78,38 @@ public class PlacementController {
             }
         }
 
-        // Evento para cambiar la orientación con la tecla Espacio
         ownBoardGrid.setOnKeyPressed(event -> {
             if (Objects.requireNonNull(event.getCode()) == KeyCode.SPACE) {
-                toggleOrientation(); // Cambiar orientación
+                toggleOrientation();
             }
         });
 
-        // Permitir que el GridPane reciba eventos de teclado
         ownBoardGrid.setFocusTraversable(true);
     }
 
+    /**
+     * Handles the action of starting the game after ship placement.
+     *
+     * @throws IOException if there is an error loading the game stage
+     */
     @FXML
     private void handleStartButton() throws IOException {
-        // Asegúrate de que los barcos de la máquina sean colocados antes de iniciar el juego
         game.machine.placeShips();
-
-        // Crear y configurar el GameStage
         GameStage.getInstance().getGameController().setGame(game);
-
-        // Cerrar el PlacementStage
         PlacementStage.deleteInstance();
     }
 
-
-
-
-
-
     /**
-     * Resalta las celdas donde podría colocarse el barco actual.
+     * Highlights the cells where the current ship can be placed.
      *
-     * @param startRow Fila inicial del posible posicionamiento.
-     * @param startCol Columna inicial del posible posicionamiento.
+     * @param startRow the starting row of the potential placement
+     * @param startCol the starting column of the potential placement
      */
     private void highlightPotentialShip(int startRow, int startCol) {
         if (currentShip == null) return;
 
         boolean isHorizontal = currentShip.isHorizontal();
         int size = currentShip.getSize();
-
         boolean isValid = humanBoard.isPlacementValid(currentShip, startRow, startCol);
 
         for (int i = 0; i < size; i++) {
@@ -135,20 +119,18 @@ public class PlacementController {
             for (var node : ownBoardGrid.getChildren()) {
                 if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == col) {
                     Rectangle rect = (Rectangle) node;
-                    // Solo resaltar si la celda no está ocupada
                     if (humanBoard.occupiesCell(row, col)) {
-                        rect.setFill(Color.GRAY); // Ocupada, ya tiene un barco
+                        rect.setFill(Color.GRAY);
                     } else {
-                        rect.setFill(isValid ? Color.GREEN : Color.RED); // Resaltado válido/incorrecto
+                        rect.setFill(isValid ? Color.GREEN : Color.RED);
                     }
                 }
             }
         }
     }
 
-
     /**
-     * Limpia el resaltado en el tablero.
+     * Clears any highlighting on the player's board.
      */
     private void clearHighlight() {
         for (var node : ownBoardGrid.getChildren()) {
@@ -156,21 +138,19 @@ public class PlacementController {
             int row = GridPane.getRowIndex(node);
             int col = GridPane.getColumnIndex(node);
 
-            // Solo limpiar si la celda no está ocupada
             if (humanBoard.occupiesCell(row, col)) {
-                rect.setFill(Color.GRAY); // Ocupada, ya tiene un barco
+                rect.setFill(Color.GRAY);
             } else {
-                rect.setFill(Color.LIGHTBLUE); // Vacía
+                rect.setFill(Color.LIGHTBLUE);
             }
         }
     }
 
-
     /**
-     * Maneja el clic del jugador para intentar colocar un barco.
+     * Handles the player's attempt to place a ship.
      *
-     * @param startRow Fila inicial seleccionada.
-     * @param startCol Columna inicial seleccionada.
+     * @param startRow the starting row of the attempted placement
+     * @param startCol the starting column of the attempted placement
      */
     private void handleCellClick(int startRow, int startCol) {
         if (currentShip == null) {
@@ -191,12 +171,12 @@ public class PlacementController {
     }
 
     /**
-     * Actualiza la interfaz para mostrar un barco colocado.
+     * Updates the board UI to reflect a placed ship.
      *
-     * @param startRow Fila inicial del barco.
-     * @param startCol Columna inicial del barco.
-     * @param size Tamaño del barco.
-     * @param isHorizontal Orientación del barco.
+     * @param startRow the starting row of the ship
+     * @param startCol the starting column of the ship
+     * @param size the size of the ship
+     * @param isHorizontal the orientation of the ship
      */
     private void updateOwnBoardUI(int startRow, int startCol, int size, boolean isHorizontal) {
         for (int i = 0; i < size; i++) {
@@ -212,49 +192,41 @@ public class PlacementController {
         }
     }
 
-
     /**
-     * Checks if all ships have been placed and enables the "Start" button if true.
+     * Checks if all ships are placed and enables the start button if true.
      */
     private void checkAllShipsPlaced() {
         if (human.getShips().stream().allMatch(ship -> humanBoard.getShips().contains(ship))) {
             startButton.setDisable(false);
             startButton.setStyle("-fx-background-color: #d6dbdf; -fx-text-fill: #1e2e51; -fx-font-weight: impact;");
-            ownBoardGrid.setDisable(true); // Desactiva el tablero
+            ownBoardGrid.setDisable(true);
             System.out.println("All ships placed! Board is now disabled.");
         }
     }
 
-
-
     /**
-     * Proceeds to the next ship to be placed, or validates that all ships are placed.
+     * Moves to the next ship to place or validates that all ships are placed.
      */
     private void proceedToNextShip() {
-        // Get the current index of the ship being placed
         int currentIndex = human.getShips().indexOf(currentShip);
 
-        // If there are more ships to place, move to the next one
         if (currentIndex < human.getShips().size() - 1) {
             currentShip = human.getShips().get(currentIndex + 1);
             System.out.println("Select position for: " + currentShip.getName());
         } else {
-            // If no more ships remain, check if all are placed
             System.out.println("All ships placed!");
         }
 
-        // Validate ship placement status
         checkAllShipsPlaced();
     }
 
-
+    /**
+     * Toggles the orientation of the current ship between horizontal and vertical.
+     */
     private void toggleOrientation() {
         if (currentShip == null) return;
 
-        // Cambiar la orientación del barco actual
         currentShip.setHorizontal(!currentShip.isHorizontal());
         System.out.println("Orientation toggled: " + (currentShip.isHorizontal() ? "Horizontal" : "Vertical"));
     }
-
-
 }
