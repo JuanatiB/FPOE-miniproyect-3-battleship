@@ -3,12 +3,16 @@ package com.example.miniproyect3fpoe.model;
 import java.util.Random;
 
 public class MachineAdapter extends PlayerAdapter {
-    private static final int BOARD_SIZE = 10; // Tamaño fijo del tablero
+    public static final int BOARD_SIZE = 10; // Tamaño fijo del tablero
     private Random random;
 
     public MachineAdapter(Board board) {
         super(board);
         this.random = new Random();
+    }
+
+    public Board getBoard() {
+        return super.getBoard();
     }
 
     /**

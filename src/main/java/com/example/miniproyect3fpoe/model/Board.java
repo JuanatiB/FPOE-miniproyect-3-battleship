@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
-    private static final int BOARD_SIZE = 10; // Size of the board (10x10 grid)
+    public static final int BOARD_SIZE = 10; // Size of the board (10x10 grid)
     private final char[][] grid; // Grid representing the board
     private final List<Ship> ships; // List of ships placed on the board
 
@@ -195,4 +195,9 @@ public class Board {
     public boolean occupiesCell(int row, int col) {
         return grid[row][col] == SHIP;
     }
+
+    public char[][] getGrid() {
+        return grid;
+    }
+
 }
