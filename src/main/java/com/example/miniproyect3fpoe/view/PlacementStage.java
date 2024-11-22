@@ -28,18 +28,17 @@ public class PlacementStage extends Stage {
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/com/example/miniproyect3fpoe/placement-view.fxml")
         );
-
         Parent root = loader.load();
         placementController = loader.getController();
         Scene scene = new Scene(root);
         setScene(scene);
-        setTitle("Board");
+        setTitle("Posicionamiento");
 //        getIcons().add(new Image(String.valueOf(
 //                getClass().getResource("/proyecto1/numero-1.png"))
 //        ));
         setResizable(false);
-        setWidth(800);
-        setHeight(500);
+        setWidth(700);
+        setHeight(400);
         show();
     }
 

@@ -1,65 +1,54 @@
 package com.example.miniproyect3fpoe.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import com.example.miniproyect3fpoe.model.Board;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-
+import com.example.miniproyect3fpoe.model.Board;
 
 public class OpponentBoardController {
 
     @FXML
-    private GridPane machineBoardGrid;
+    private GridPane opponentBoardGrid;
 
     private Board machineBoard;
 
-    public void initialize(Board machineBoard) {
-        machineBoardGrid.getChildren().clear();
+    /**
+     * Configura el tablero de la máquina en el controlador.
+     * @param board Tablero de la máquina.
+     */
+    public void setMachineBoard(Board board) {
+        this.machineBoard = board;
+        updateBoard();
+    }
 
-        for (int row = 0; row < 10; row++) {
-            for (int col = 0; col < 10; col++) {
+    /**
+     * Actualiza la vista del tablero del oponente.
+     */
+    private void updateBoard() {
+        opponentBoardGrid.getChildren().clear();
+
+        for (int row = 0; row < Board.BOARD_SIZE; row++) {
+            for (int col = 0; col < Board.BOARD_SIZE; col++) {
                 Rectangle cell = new Rectangle(30, 30);
                 cell.setStroke(Color.BLACK);
 
                 if (machineBoard.occupiesCell(row, col)) {
-                    cell.setFill(Color.DARKGRAY); // Muestra barcos
-                } else if (machineBoard.isHit(row, col)) {
-                    cell.setFill(Color.RED); // Disparo exitoso
-                } else if (machineBoard.isMiss(row, col)) {
-                    cell.setFill(Color.YELLOW); // Disparo fallido
+                    cell.setFill(Color.DARKGRAY); // Barco
                 } else {
                     cell.setFill(Color.LIGHTBLUE); // Agua
                 }
 
-                machineBoardGrid.add(cell, col, row);
+                opponentBoardGrid.add(cell, col, row);
             }
         }
     }
 
-    private void displayBoard(Board board) {
-        machineBoardGrid.getChildren().clear();
-
-        for (int row = 0; row < 10; row++) {
-            for (int col = 0; col < 10; col++) {
-                Rectangle cell = new Rectangle(30, 30);
-                cell.setStroke(Color.BLACK);
-                cell.setFill(Color.LIGHTBLUE);
-
-                // Determina el estado de cada celda
-                if (board.isHit(row, col)) {
-                    cell.setFill(Color.RED); // Disparo exitoso
-                } else if (board.isMiss(row, col)) {
-                    cell.setFill(Color.YELLOW); // Disparo fallido
-                } else if (board.occupiesCell(row, col)) {
-                    cell.setFill(Color.DARKGRAY); // Barco visible en el tablero
-                }
-
-                machineBoardGrid.add(cell, col, row);
-            }
-        }
+    /**
+     * Cierra la ventana actual.
+     */
+    @FXML
+    private void closeWindow() {
+        opponentBoardGrid.getScene().getWindow().hide();
     }
-
-
 }

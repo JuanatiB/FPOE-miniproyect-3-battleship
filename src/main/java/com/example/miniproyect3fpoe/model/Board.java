@@ -1,12 +1,10 @@
 package com.example.miniproyect3fpoe.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Board implements Serializable {
-    private static final long serialVersionUID = 1L;
-    private static final int BOARD_SIZE = 10; // Size of the board (10x10 grid)
+public class Board {
+    public static final int BOARD_SIZE = 10; // Size of the board (10x10 grid)
     private final char[][] grid; // Grid representing the board
     private final List<Ship> ships; // List of ships placed on the board
 
@@ -124,13 +122,18 @@ public class Board implements Serializable {
      * @return true if all ships are sunk, false otherwise.
      */
     public boolean isGameOver() {
+        System.out.println("Checking if all ships are sunk...");
         for (Ship ship : ships) {
             if (!ship.isSunk()) {
+                System.out.println("Ship " + ship.getName() + " is not sunk.");
                 return false;
             }
         }
+        System.out.println("All ships are sunk. Game over.");
         return true;
     }
+
+
 
     /**
      * Verifies if a specific cell is a hit.
@@ -140,7 +143,10 @@ public class Board implements Serializable {
      * @return true if the cell is a hit, false otherwise.
      */
     public boolean isHit(int row, int col) {
-        return row >= 0 && row < BOARD_SIZE && col >= 0 && col < BOARD_SIZE && grid[row][col] == HIT;
+        if (row < 0 || row >= BOARD_SIZE || col < 0 || col >= BOARD_SIZE) {
+            return false; // Out of bounds
+        }
+        return grid[row][col] == HIT;
     }
 
     /**
@@ -151,7 +157,10 @@ public class Board implements Serializable {
      * @return true if the cell is a miss, false otherwise.
      */
     public boolean isMiss(int row, int col) {
-        return row >= 0 && row < BOARD_SIZE && col >= 0 && col < BOARD_SIZE && grid[row][col] == MISS;
+        if (row < 0 || row >= BOARD_SIZE || col < 0 || col >= BOARD_SIZE) {
+            return false; // Out of bounds
+        }
+        return grid[row][col] == MISS;
     }
 
     /**

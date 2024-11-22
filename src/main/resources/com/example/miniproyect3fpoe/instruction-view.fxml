@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="30.0" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.miniproyect3fpoe.controller.InstructionController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.miniproyect3fpoe.controller.InstructionController">
    <children>
-      <Label text="instrucciones instrucciones instrucciones" />
-      <Label text="Créditos creditos creditos" />
-      <Button fx:id="BackButton" mnemonicParsing="false" onAction="#HandleBack" text="Volver" />
+      <ImageView fitHeight="717.0" fitWidth="472.0" layoutX="-1.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/instructions.jpg" />
+         </image>
+      </ImageView>
+      <Text layoutX="50.0" layoutY="97.0" text="Primero, coloca tus naves en el tablero propio (izquierda) seleccionando una celda inicial con un clic. Usa la tecla barra espaciadora para cambiar la orientación entre horizontal y vertical. Cuando todas las naves estén colocadas correctamente, el botón &quot;Start&quot; se activará para iniciar el juego.En cada turno, da clic en una celda del tablero enemigo (derecha) para disparar. Los colores indican el resultado: amarillo para disparos fallidos y rojo si golpeas una nave. El juego termina cuando uno de los jugadores hunde todas las naves del otro. Si ganas, verás el mensaje &quot;Felicidades, ganaste!&quot;, y si pierdes, &quot;Lo siento, la máquina ganó esta.&quot;" wrappingWidth="300" />
+
+      <Label layoutX="120.0" layoutY="14.0" prefHeight="33.0" prefWidth="159.0" text="INSTRUCCIONES" textFill="#1e2e51">
+         <font>
+            <Font name="Impact" size="24.0" />
+         </font>
+      </Label>
+      <Button fx:id="BackButton" layoutX="336.0" layoutY="660.0" mnemonicParsing="false" onAction="#HandleBack" text="Volver" />
    </children>
-   <padding>
-      <Insets left="10.0" />
-   </padding>
-</VBox>
+</AnchorPane>

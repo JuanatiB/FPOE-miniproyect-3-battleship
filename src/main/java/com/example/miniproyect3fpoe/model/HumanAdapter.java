@@ -27,14 +27,4 @@ public class HumanAdapter extends PlayerAdapter {
     public List<Ship> getShips() {
         return ships;
     }
-
-    /**
-     * Returns the number of ships that have been sunk for the human player.
-     * @return The count of sunk ships.
-     */
-    public int getSunkShipsCount() {
-        return (int) getBoard().getShips().stream()
-                .filter(Ship::isSunk)
-                .count();
-    }
 }

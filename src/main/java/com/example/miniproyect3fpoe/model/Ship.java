@@ -1,11 +1,9 @@
 package com.example.miniproyect3fpoe.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Ship implements Serializable {
-    private static final long serialVersionUID = 1L; // ID para la serialización
+public class Ship {
     private final String name; // Name of the ship (e.g., "Carrier", "Destroyer")
     private final int size; // Size of the ship (number of cells it occupies)
     private boolean isHorizontal; // Orientation: true = horizontal, false = vertical
@@ -66,6 +64,7 @@ public class Ship implements Serializable {
         return false;
     }
 
+
     /**
      * Sets the orientation of the ship.
      * @param horizontal true if the ship is horizontal, false if it is vertical.
@@ -73,7 +72,6 @@ public class Ship implements Serializable {
     public void setHorizontal(boolean horizontal) {
         this.isHorizontal = horizontal;
     }
-
     /**
      * Checks if the ship is sunk (all cells are hit).
      * @return true if the ship is sunk, false otherwise.
@@ -106,6 +104,8 @@ public class Ship implements Serializable {
         return isHorizontal;
     }
 
+
+
     /**
      * Gets the coordinates occupied by the ship.
      * @return List of coordinates (row, column) occupied by the ship.
@@ -120,13 +120,5 @@ public class Ship implements Serializable {
      */
     public int getHits() {
         return hits;
-    }
-
-    /**
-     * Resets the ship's state.
-     */
-    public void reset() {
-        coordinates.clear();
-        hits = 0;
     }
 }

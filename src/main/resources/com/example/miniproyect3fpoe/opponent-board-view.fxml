@@ -4,10 +4,9 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.miniproyect3fpoe.controller.OpponentBoardController"
       spacing="10" alignment="CENTER">
     <GridPane fx:id="opponentBoardGrid" gridLinesVisible="true" />
-    <Button text="Cerrar" />
+    <Button text="Cerrar" onAction="#closeWindow" />
 </VBox>
