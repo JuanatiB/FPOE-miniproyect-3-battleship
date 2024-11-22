@@ -152,7 +152,7 @@ public class GameController {
 
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
-                Rectangle cell = new Rectangle(30, 30);
+                Rectangle cell = new Rectangle(29, 29);
                 cell.setStroke(Color.BLACK);
                 cell.setFill(Color.LIGHTBLUE);
 
