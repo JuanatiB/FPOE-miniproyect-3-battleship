@@ -318,9 +318,9 @@
             <Image url="@images/jugador.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="161.0" fitWidth="161.0" layoutX="500.0" layoutY="370.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="157.0" fitWidth="153.0" layoutX="522.0" layoutY="368.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/enemigo.png" />
+            <Image url="@images/computador.png" />
          </image>
       </ImageView>
     </children>
