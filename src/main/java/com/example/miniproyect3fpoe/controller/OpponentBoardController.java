@@ -14,8 +14,9 @@ public class OpponentBoardController {
     private Board machineBoard;
 
     /**
-     * Configura el tablero de la máquina en el controlador.
-     * @param board Tablero de la máquina.
+     * Sets the machine's board and updates the view.
+     *
+     * @param board the machine's board
      */
     public void setMachineBoard(Board board) {
         this.machineBoard = board;
@@ -23,10 +24,7 @@ public class OpponentBoardController {
     }
 
     /**
-     * Actualiza la vista del tablero del oponente.
-     */
-    /**
-     * Actualiza la vista del tablero del oponente.
+     * Updates the opponent's board view based on the current state of the machine's board.
      */
     private void updateBoard() {
         opponentBoardGrid.getChildren().clear();
@@ -36,24 +34,22 @@ public class OpponentBoardController {
                 Rectangle cell = new Rectangle(30, 30);
                 cell.setStroke(Color.BLACK);
 
-                // Obtener el estado de la celda
                 char cellState = machineBoard.getGrid()[row][col];
 
-                // Asignar color según el estado de la celda
                 switch (cellState) {
-                    case '-': // Vacío
+                    case '-': // Empty cell
                         cell.setFill(Color.LIGHTBLUE);
                         break;
-                    case 'X': // Golpe
+                    case 'X': // Hit
                         cell.setFill(Color.RED);
                         break;
-                    case 'O': // Fallo
+                    case 'O': // Miss
                         cell.setFill(Color.YELLOW);
                         break;
-                    case 'S': // Barco
+                    case 'S': // Ship
                         cell.setFill(Color.DARKGRAY);
                         break;
-                    default: // Estado desconocido
+                    default: // Unknown state
                         cell.setFill(Color.WHITE);
                 }
 
@@ -62,9 +58,8 @@ public class OpponentBoardController {
         }
     }
 
-
     /**
-     * Cierra la ventana actual.
+     * Closes the current window.
      */
     @FXML
     private void closeWindow() {

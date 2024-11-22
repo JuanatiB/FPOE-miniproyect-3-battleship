@@ -1,6 +1,5 @@
 package com.example.miniproyect3fpoe.model;
 
-import java.util.List;
 
 public interface IPlayer {
 

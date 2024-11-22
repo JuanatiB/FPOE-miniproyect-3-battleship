@@ -3,6 +3,9 @@ package com.example.miniproyect3fpoe.utils;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * Utility class for managing image operations such as loading, resizing, and rotating images.
+ */
 public class ImageUtils {
 
     /**
@@ -10,13 +13,13 @@ public class ImageUtils {
      *
      * @param path the relative path to the image resource
      * @return an ImageView containing the loaded image
+     * @throws RuntimeException if the image cannot be loaded
      */
     public static ImageView loadImage(String path) {
         try {
             Image image = new Image(ImageUtils.class.getResourceAsStream(path));
             ImageView imageView = new ImageView(image);
 
-            // Configurar propiedades de ajuste usando dimensiones intrínsecas
             imageView.setFitWidth(image.getWidth());
             imageView.setFitHeight(image.getHeight());
 
@@ -26,9 +29,8 @@ public class ImageUtils {
         }
     }
 
-
     /**
-     * Resizes an ImageView to the given dimensions.
+     * Resizes an ImageView to the specified dimensions.
      *
      * @param imageView the ImageView to resize
      * @param width     the target width
@@ -40,7 +42,8 @@ public class ImageUtils {
     }
 
     /**
-     * Rotates an ImageView by the given angle.
+     * Rotates an ImageView by the specified angle.
+     * Automatically adjusts the dimensions of the ImageView for rotations of 90 or 270 degrees.
      *
      * @param imageView the ImageView to rotate
      * @param angle     the angle in degrees
@@ -48,7 +51,6 @@ public class ImageUtils {
     public static void rotateImage(ImageView imageView, double angle) {
         imageView.setRotate(angle);
 
-        // Ajustar automáticamente las dimensiones tras la rotación
         if (angle == 90 || angle == 270) {
             double originalWidth = imageView.getFitWidth();
             double originalHeight = imageView.getFitHeight();
@@ -56,7 +58,4 @@ public class ImageUtils {
             imageView.setFitHeight(originalWidth);
         }
     }
-
-
-
 }
